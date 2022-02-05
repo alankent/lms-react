@@ -60,3 +60,15 @@ const Curriculum = {
 }
 
 export default Curriculum
+
+
+Curriculum.findCourseById = function findCourseById(courseId) {
+  for (var category of Curriculum.categories) {
+    for (var course of category.courses) {
+      if (course.course_id === courseId) {
+        return course;
+      }
+    }
+  }
+  return null;
+}

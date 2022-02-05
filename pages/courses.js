@@ -41,7 +41,7 @@ export default function CoursePage() {
       </Container>
 
       {/* List of categories and courses per category */}
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container sx={{ py: 8 }} maxWidth="lg">
         {Curriculum.categories.map((category) => (<>
 
           <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
