@@ -20,6 +20,7 @@ function Copyright() {
 export default function PageFooter() {
   return (
     <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+      {/*
       <Typography variant="h6" align="center" gutterBottom>
         More Info
       </Typography>
@@ -31,6 +32,7 @@ export default function PageFooter() {
       >
         Something here to give the footer a purpose!
       </Typography>
+      */}
       <Copyright />
     </Box>
   );

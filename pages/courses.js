@@ -1,19 +1,18 @@
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Curriculum from '../components/Curriculum';
-import PageLayout from '../components/PageLayout';
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import PageLayout from '../components/PageLayout'
+import Curriculum from '../components/Curriculum'
 import Link from 'next/link';
 
-
-export default function CoursePage() {
+export default function Courses() {
   return (
-    <PageLayout pageTitle="Curriculum">
+    <PageLayout title="Curriculum">
 
       {/* Page title area */}
       <Container maxWidth="md">
@@ -42,44 +41,46 @@ export default function CoursePage() {
 
       {/* List of categories and courses per category */}
       <Container sx={{ py: 8 }} maxWidth="lg">
-        {Curriculum.categories.map((category) => (<>
+        {Curriculum.categories.map((category) => (
+          <div key={category.category_label}>
 
-          <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
-            {category.title}
-          </Typography>
+            <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
+              {category.title}
+            </Typography>
 
-          <Grid container spacing={4}>
-            {category.courses.map((course) => (<>
-              <Grid item key={course.course_id} xs={12} sm={6} md={4}>
-                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h4">
-                      {course.title}
-                    </Typography>
-                    <Typography>
-                      {course.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Link href={"/course/" + course.course_id}>
-                      <Button size="small">View</Button>
-                    </Link>
-                  </CardActions>
-                </Card>
-              </Grid>
-            </>))}
-          </Grid>
+            <Grid container spacing={4}>
+              {category.courses.map((course) => (<>
+                <Grid item key={course.db_id} xs={12} sm={6} md={4}>
+                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        // 16:9
+                        pt: '56.25%',
+                      }}
+                      image="https://source.unsplash.com/random"
+                      alt="random"
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h4">
+                        {course.title}
+                      </Typography>
+                      <Typography>
+                        {course.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link href={"/course/" + course.path}>
+                        <Button size="small">View</Button>
+                      </Link>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              </>))}
+            </Grid>
+          </div>
 
-        </>))}
+        ))}
 
       </Container>
     </PageLayout>
