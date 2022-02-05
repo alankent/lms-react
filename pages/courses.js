@@ -35,7 +35,7 @@ const theme = createTheme();
 export default function CoursePage() {
   return (
     <ThemeProvider theme={theme}>
-    {/* <CssBaseline /> */}
+      <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
           <CameraIcon sx={{ mr: 2 }} />
@@ -53,7 +53,7 @@ export default function CoursePage() {
             pb: 6,
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Typography
               component="h1"
               variant="h2"
