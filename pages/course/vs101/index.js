@@ -2,6 +2,10 @@ import CoursePageLayout from '../../../components/CoursePageLayout'
 import Link from 'next/link'
 
 import Lesson_vs101_001 from './001'
+import Lesson_vs101_002 from './002'
+import Lesson_vs101_003 from './003'
+import Lesson_vs101_003b from './003b'
+import Lesson_vs101_004 from './004'
 
 const metadata = {
   path: "vs101",
@@ -15,40 +19,16 @@ const metadata = {
       title: "Introduction to VRoid Studio",
       lessons: [
         Lesson_vs101_001.metadata,
-        {
-          lesson_label: "2",
-          path: "002",
-          db_id: "vs101_002",
-          title: "Basic Controls",
-          description: "A first introduction to the basic controls in VRoid Studio."
-        }
+        Lesson_vs101_002.metadata
       ]
     },
     {
       topic_label: "2",
       title: "Exporting VRM Files",
       lessons: [
-        {
-          lesson_label: "1",
-          path: "003",
-          db_id: "vs101_003",
-          title: "Animation Test",
-          description: "Test your character with built in animation clips before exporting from VRoid Studio to other systems."
-        },
-        {
-          lesson_label: "1b",
-          path: "001b",
-          db_id: "vs101_102",
-          title: "Pose Test",
-          description: "Test your character poses before exporting from VRoid Studio to other systems."
-        },
-        {
-          lesson_label: "2",
-          path: "002",
-          db_id: "vs101_004",
-          title: "Animation Test",
-          description: "Test your character with built in animation clips before exporting from VRoid Studio to other systems."
-        }
+        Lesson_vs101_003.metadata,
+        Lesson_vs101_003b.metadata,
+        Lesson_vs101_004.metadata
       ]
     }
   ]
