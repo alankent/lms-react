@@ -16,13 +16,13 @@ const Curriculum = {
               lessons: [
                 {
                   lesson_label: "1",
-                  lesson_id: "vs101:001",
+                  lesson_id: "vs101_001",
                   title: "Installing VRoid Studio",
                   description: "A quick guide to installing VRoid Studio on your desktop."
                 },
                 {
                   lesson_label: "2",
-                  lesson_id: "vs101:002",
+                  lesson_id: "vs101_002",
                   title: "Basic Controls",
                   description: "A first introduction to the basic controls in VRoid Studio."
                 }
@@ -34,19 +34,19 @@ const Curriculum = {
               lessons: [
                 {
                   lesson_label: "1",
-                  lesson_id: "vs101:003",
+                  lesson_id: "vs101_003",
                   title: "Animation Test",
                   description: "Test your character with built in animation clips before exporting from VRoid Studio to other systems."
                 },
                 {
                   lesson_label: "1b",
-                  lesson_id: "vs101:102",
+                  lesson_id: "vs101_102",
                   title: "Pose Test",
                   description: "Test your character poses before exporting from VRoid Studio to other systems."
                 },
                 {
                   lesson_label: "2",
-                  lesson_id: "vs101:004",
+                  lesson_id: "vs101_004",
                   title: "Animation Test",
                   description: "Test your character with built in animation clips before exporting from VRoid Studio to other systems."
                 }
