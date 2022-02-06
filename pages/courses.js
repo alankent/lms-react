@@ -50,7 +50,7 @@ export default function Courses() {
 
             <Grid container spacing={4}>
               {category.courses.map((course) => (
-                <Grid item key={course.db_id} xs={12} sm={6} md={4}>
+                <Grid item key={course.id} xs={12} sm={6} md={4}>
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardMedia
                       component="img"

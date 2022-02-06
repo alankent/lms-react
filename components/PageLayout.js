@@ -7,13 +7,13 @@ import PageHeader from '../components/PageHeader';
 
 const theme = createTheme();
 
-export default function PageLayout({ title, children, icon, iconHref }) {
+export default function PageLayout({ title, children, icon, iconHref, right }) {
   return (
     <ThemeProvider theme={theme}>
 
       <CssBaseline />
 
-      <PageHeader title={title} icon={icon} iconHref={iconHref} />
+      <PageHeader title={title} icon={icon} iconHref={iconHref} right={right} />
 
       <main>
         <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 6, }}>

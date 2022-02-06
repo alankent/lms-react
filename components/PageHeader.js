@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
-export default function PageHeader({ title, icon, iconHref }) {
+export default function PageHeader({ title, icon, iconHref, right }) {
   return (
     <AppBar position="relative">
       <Toolbar>
@@ -17,9 +17,10 @@ export default function PageHeader({ title, icon, iconHref }) {
             {icon}
           </span>
         )}
-        <Typography variant="h6" color="inherit" noWrap sx={{ ml: 2 }}>
+        <Typography variant="h6" component="div" color="inherit" noWrap sx={{ ml: 2, flexGrow: 1 }}>
           {title}
         </Typography>
+        {right}
       </Toolbar>
     </AppBar>
   );
