@@ -4,10 +4,12 @@ import Switch from '@mui/material/Switch'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import ArrowBack from '@mui/icons-material/ArrowBack'
+import Close from '@mui/icons-material/Close'
 import PageLayout from './PageLayout'
 import Link from 'next/link'
+import IconButton from 'next/link'
 import Curriculum from './Curriculum'
+import Completion from './Completion'
 
 
 export default function CoursePageLayout({ id }) {
@@ -17,8 +19,11 @@ export default function CoursePageLayout({ id }) {
   return (
     <PageLayout
       title={course.course_label + ": " + course.title}
-      icon={<ArrowBack/>}
-      iconHref="/courses"
+      controls={
+        <IconButton sx={{ color: "white" }} href="/courses" aria-label="Course list">
+          <Close/>
+        </IconButton>
+      }
     >
 
       {/* Page title area */}
@@ -39,7 +44,7 @@ export default function CoursePageLayout({ id }) {
         {course.topics.map((topic) => (
           <div key={topic.id}>
 
-            <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
+            <Typography component="h3" variant="h3" align="left" color="text.primary" sx={{ mt: 4 }} gutterBottom>
               {topic.title}
             </Typography>
 
@@ -47,17 +52,25 @@ export default function CoursePageLayout({ id }) {
               <Box key={lesson.id} sx={{ mb: 2 }}>
                 <Box sx={{ border: 1, borderColor: 'primary.main', borderRadius: 2, bgcolor: 'background.paper' }}>
                   <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" mr={2}>
-                    <Link href={"/course/" + course.path + "/" + lesson.path}>
-                      <Box sx={{ m: 2 }}>
-                        <Typography variant="h5" sx={{ m: 2 }} component="span" align="left" color="text.primary" gutterBottom>
+                    <Link href={Curriculum.pathToLesson(course, lesson)}>
+                      <Box sx={{ m: 3 }}>
+                        <Typography variant="h5" sx={{ mr: 2 }} component="span" align="left" color="text.primary" gutterBottom>
                           {topic.topic_label}.{lesson.lesson_label} {lesson.title}
                         </Typography>
-                        <Typography component="span" align="left" color="text.primary" gutterBottom>
+                        <Typography component="span" align="left" color="text.secondary" gutterBottom>
                           {lesson.description}
                         </Typography>
                       </Box>
                     </Link>
-                    <Switch checked={true}/>
+                    <Stack direction="row">
+                      <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
+                        Go to Lesson
+                      </Button>
+                      <Switch
+                        defaultChecked={Completion.lessonCompleted(lesson)}
+                        onChange={e => Completion.setLessonCompleted(lesson, e.target.checked)}
+                      />
+                    </Stack>
                   </Stack>
                 </Box>
               </Box>
@@ -65,8 +78,17 @@ export default function CoursePageLayout({ id }) {
 
           </div>
         ))}
-
       </Container>
+
+      <Container>
+        <Button sx={{ mr: 2 }} variant="outlined" href={"/courses"}>
+          Return to course list
+        </Button>
+        <Button sx={{ mr: 2 }} variant="contained" color="success" href={"/courses"}>
+          Mark as Done
+        </Button>
+      </Container>
+
     </PageLayout>
   );
 }

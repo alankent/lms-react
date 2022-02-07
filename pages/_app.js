@@ -1,5 +1,6 @@
 //import '../styles/globals.css'
 import Head from 'next/Head'
+import MUICookieConsent from '../components/MUICookieConsent'
 
 function MyApp({ Component, pageProps }) {
   return <>
@@ -14,6 +15,10 @@ function MyApp({ Component, pageProps }) {
       />
     </Head>
     <Component {...pageProps} />
+    <MUICookieConsent
+      cookieName="ConsentCookie"
+      message="This site uses cookies to work out which lessons are popular and to save your progress."
+    />
   </>
 }
 

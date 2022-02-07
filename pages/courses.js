@@ -4,10 +4,14 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Grid from '@mui/material/Grid'
+import Switch from '@mui/material/Switch'
+import FormControl from '@mui/material/FormControl'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import PageLayout from '../components/PageLayout'
 import Curriculum from '../components/Curriculum'
+import Completion from '../components/Completion'
 import Link from 'next/link';
 
 export default function Courses() {
@@ -70,9 +74,15 @@ export default function Courses() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Link href={"/course/" + course.path}>
-                        <Button size="small">View</Button>
-                      </Link>
+                      <Stack sx={{ width: "100%" }} direction="row" justifyContent="space-between">
+                        <Link href={"/course/" + course.path} sx={{ flexGrow: 1 }}>
+                          <Button>Go to Course</Button>
+                        </Link>
+                        <Switch
+                          defaultChecked={Completion.courseCompleted(course)}
+                          onChange={e => Completion.setCourseCompleted(course, e.target.checked)}
+                        />
+                      </Stack>
                     </CardActions>
                   </Card>
                 </Grid>

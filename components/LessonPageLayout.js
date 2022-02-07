@@ -9,6 +9,7 @@ import Close from '@mui/icons-material/Close'
 import PageLayout from './PageLayout'
 import Link from 'next/link'
 import Curriculum from './Curriculum'
+import Completion from './Completion'
 
 
 export default function LessonPageLayout({ id, children }) {
@@ -21,29 +22,27 @@ export default function LessonPageLayout({ id, children }) {
 
   // For top right corner of screen
   const iconControls = (
-    <Box>
+    <>
     
-      <IconButton href={Curriculum.pathToLesson(course, prevLesson)} aria-label="Previous lesson" disabled={!prevLesson}>
-        <ArrowBack sx={{ color: 'white' }}/>
+      <IconButton sx={{ color: "white" }} href={Curriculum.pathToLesson(course, prevLesson)} aria-label="Previous lesson" disabled={!prevLesson}>
+        <ArrowBack/>
       </IconButton>
 
-      <IconButton href={Curriculum.pathToCourse(course)} aria-label="Return to course">
-        <Close sx={{ color: 'white' }}/>
+      <IconButton sx={{ color: "white" }} href={Curriculum.pathToCourse(course)} aria-label="Return to course">
+        <Close/>
       </IconButton>
 
-      <IconButton href={Curriculum.pathToLesson(course, nextLesson)} aria-label="Next lesson" disabled={!nextLesson}>
-        <ArrowForward sx={{ color: 'white' }}/>
+      <IconButton sx={{ color: "white" }} href={Curriculum.pathToLesson(course, nextLesson)} aria-label="Next lesson" disabled={!nextLesson}>
+        <ArrowForward/>
       </IconButton>
 
-    </Box>
+    </>
   )
 
   return (
     <PageLayout
       title={course.course_label + " " + topic.topic_label + "." + lesson.lesson_label + ": " + lesson.title}
-      icon={(<ArrowBack/>)}
-      iconHref={"/course/" + course.path}
-      right={iconControls}
+      controls={iconControls}
     >
 
       {/* Page title area */}
@@ -65,27 +64,57 @@ export default function LessonPageLayout({ id, children }) {
       </Container>
 
       {/* Text nav buttons */}
-      <Container sx={{ py: 2 }} maxWidth="lg">
+      <Container sx={{ py: 2 }} maxWidth="md">
 
+        {/*
         {prevLesson ? (
           <Button variant="outlined" sx={{ mr: 2 }} href={Curriculum.pathToLesson(course, prevLesson)}>Prev</Button>
         ) : (
           <Button variant="outlined" sx={{ mr: 2 }} disabled>Prev</Button>
         )}
+        */}
 
         {nextLesson ? (
-          <Button variant="outlined" sx={{ mr: 2 }} href={Curriculum.pathToLesson(course, nextLesson)}>Next</Button>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: "100%" }}
+            hrefxxx={Curriculum.pathToLesson(course, nextLesson)}
+            onClick={e => {
+              Completion.setLessonCompleted(lesson, true)
+              window.open(Curriculum.pathToLesson(course, nextLesson), "_self")
+            }}
+          >
+            Mark complete and continue to next lesson
+          </Button>
         ) : (
-          <Button variant="outlined" sx={{ mr: 2 }} disabled>Next</Button>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: "100%" }}
+            href={Curriculum.pathToCourse(course)}
+            onClick={e => Completion.setLessonCompleted(lesson, true)}
+          >
+            Mark complete and return to course list
+          </Button>
         )}
 
-        <Button variant="outlined" sx={{ mr: 2 }} href={Curriculum.pathToCourse(course)}>Close</Button>
+      </Container>
+      <Container maxWidth="md">
 
         {nextLesson ? (
-          <Button variant="contained" color="success" sx={{ mr: 2 }} href={Curriculum.pathToLesson(course, nextLesson)}>Done</Button>
+          <Button sx={{ width: "50%" }} href={Curriculum.pathToLesson(course, nextLesson)}>
+            Continue to next lesson
+          </Button>
         ) : (
-          <Button variant="contained" color="success" sx={{ mr: 2 }} href={Curriculum.pathToCourse(course)}>Done</Button>
+          <Button sx={{ width: "50%" }} disabled>
+            Continue to next lesson
+          </Button>
         )}
+
+        <Button sx={{ width: "50%" }} href={Curriculum.pathToCourse(course)}>
+          Return to course list
+        </Button>
 
       </Container>
 
