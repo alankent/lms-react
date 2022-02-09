@@ -66,10 +66,12 @@ export default function CoursePageLayout({ id }) {
                       <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
                         Go to Lesson
                       </Button>
-                      <Switch
-                        defaultChecked={Completion.lessonCompleted(lesson)}
-                        onChange={e => Completion.setLessonCompleted(lesson, e.target.checked)}
-                      />
+                      {/*Completion.connected()*/true &&
+                        <Switch
+                          defaultChecked={Completion.lessonCompleted(lesson)}
+                          onChange={e => Completion.setLessonCompleted(lesson, e.target.checked)}
+                        />
+                      }
                     </Stack>
                   </Stack>
                 </Box>
@@ -84,7 +86,15 @@ export default function CoursePageLayout({ id }) {
         <Button sx={{ mr: 2 }} variant="outlined" href={"/courses"}>
           Return to course list
         </Button>
-        <Button sx={{ mr: 2 }} variant="contained" color="success" href={"/courses"}>
+        <Button
+          sx={{ mr: 2 }}
+          variant="contained"
+          color="success"
+          onClick={(e) => {
+            Completion.setCourseCompleted(course, true)
+            window.open("/courses", "_self")
+          }}
+        >
           Mark as Done
         </Button>
       </Container>

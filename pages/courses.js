@@ -13,10 +13,11 @@ import PageLayout from '../components/PageLayout'
 import Curriculum from '../components/Curriculum'
 import Completion from '../components/Completion'
 import Link from 'next/link';
+import Assignment from '@mui/icons-material/Assignment'
 
 export default function Courses() {
   return (
-    <PageLayout title="Curriculum">
+    <PageLayout title="Curriculum" controls={<Assignment/>}>
 
       {/* Page title area */}
       <Container maxWidth="md">
@@ -59,8 +60,7 @@ export default function Courses() {
                     <CardMedia
                       component="img"
                       sx={{
-                        // 16:9
-                        pt: '56.25%',
+                        pt: '56.25%', // 16:9
                       }}
                       image="https://source.unsplash.com/random"
                       alt="random"
@@ -75,9 +75,9 @@ export default function Courses() {
                     </CardContent>
                     <CardActions>
                       <Stack sx={{ width: "100%" }} direction="row" justifyContent="space-between">
-                        <Link href={"/course/" + course.path} sx={{ flexGrow: 1 }}>
-                          <Button>Go to Course</Button>
-                        </Link>
+                        <Button href={"/course/" + course.path}>
+                          Go to Course
+                        </Button>
                         <Switch
                           defaultChecked={Completion.courseCompleted(course)}
                           onChange={e => Completion.setCourseCompleted(course, e.target.checked)}

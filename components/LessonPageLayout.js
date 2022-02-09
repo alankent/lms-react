@@ -74,29 +74,32 @@ export default function LessonPageLayout({ id, children }) {
         )}
         */}
 
-        {nextLesson ? (
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ width: "100%" }}
-            hrefxxx={Curriculum.pathToLesson(course, nextLesson)}
-            onClick={e => {
-              Completion.setLessonCompleted(lesson, true)
-              window.open(Curriculum.pathToLesson(course, nextLesson), "_self")
-            }}
-          >
-            Mark complete and continue to next lesson
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ width: "100%" }}
-            href={Curriculum.pathToCourse(course)}
-            onClick={e => Completion.setLessonCompleted(lesson, true)}
-          >
-            Mark complete and return to course list
-          </Button>
+        {/*Completion.connected()*/true &&
+          (nextLesson ? (
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ width: "100%" }}
+              onClick={e => {
+                Completion.setLessonCompleted(lesson, true)
+                window.open(Curriculum.pathToLesson(course, nextLesson), "_self")
+              }}
+            >
+              Mark complete and continue to next lesson
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ width: "100%" }}
+              onClick={e => {
+                Completion.setLessonCompleted(lesson, true)
+                window.open(Curriculum.pathToCourse(course), "_self")
+              }}
+            >
+              Mark complete and return to course list
+            </Button>
+          )
         )}
 
       </Container>
@@ -112,7 +115,9 @@ export default function LessonPageLayout({ id, children }) {
           </Button>
         )}
 
-        <Button sx={{ width: "50%" }} href={Curriculum.pathToCourse(course)}>
+        <Button
+          sx={{ width: "50%" }}
+          href={Curriculum.pathToCourse(course)}>
           Return to course list
         </Button>
 
