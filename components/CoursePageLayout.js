@@ -61,18 +61,19 @@ export default function CoursePageLayout({ id, children }) {
             {topic.lessons.map((lesson) => (
               <Box key={lesson.id} sx={{ mb: 2 }}>
                 <Box sx={{ border: 1, borderColor: 'primary.main', borderRadius: 2, bgcolor: 'background.paper' }}>
-                  <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" mr={2}>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={0} justifyContent="space-between" alignItems="left">
                     <Link href={Curriculum.pathToLesson(course, lesson)}>
                       <Box sx={{ m: 3 }}>
                         <Typography variant="h5" sx={{ mr: 2 }} component="span" align="left" color="text.primary" gutterBottom>
                           {topic.topic_label}.{lesson.lesson_label} {lesson.title}
                         </Typography>
+                        <Box sx={{ display: { xs: 'block', sm: 'none' } }}><br /></Box>
                         <Typography component="span" align="left" color="text.secondary" gutterBottom>
                           {lesson.description + (lesson.duration ? " [" + lesson.duration + "]" : "")}
                         </Typography>
                       </Box>
                     </Link>
-                    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="center" alignItems="center">
+                    <Stack direction="row" justifyContent="left" alignItems="center" ml={2} mr={3} mb={1}>
                       <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
                         VIEW LESSON
                       </Button>
