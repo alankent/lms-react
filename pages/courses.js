@@ -56,9 +56,8 @@ export default function Courses() {
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardMedia
                       component="img"
-                      sx={{ pt: '56.25%' }}
-                      image="https://source.unsplash.com/random"
-                      alt="random"
+                      image={Curriculum.pathToCourseImage(course)}
+                      alt={"Image for " + course.title}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h4">

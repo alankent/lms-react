@@ -441,6 +441,10 @@ Curriculum.pathToCourse = function pathToCourse(course) {
   return course && ("/course/" + course.path);
 }
 
+Curriculum.pathToCourseImage = function pathToCourseImage(course) {
+  return course && ("/course/" + course.path + "/hero-image.png");
+}
+
 Curriculum.pathToLesson = function pathToLesson(course, lesson) {
   return course && lesson && ("/course/" + course.path + "/" + lesson.path);
 }
