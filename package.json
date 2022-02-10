@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export && echo Ready for firebase deploy",
+    "build": "next build && next-sitemap && next export && echo Ready for firebase deploy",
+    "generate:sitemap": "next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
@@ -24,6 +25,7 @@
     "next": "12.0.10",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
+    "next-sitemap": "^2.1.13",
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
