@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
@@ -9,13 +10,19 @@ import FormControl from '@mui/material/FormControl'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Link from 'next/link';
 import PageLayout from '../components/PageLayout'
 import Curriculum from '../components/Curriculum'
 import Completion from '../components/Completion'
-import Link from 'next/link';
 import Assignment from '@mui/icons-material/Assignment'
+import { UserContext } from '../helpers/auth'
+import { CompletionContext } from '../components/Completion'
 
 export default function Courses() {
+
+  const user = React.useContext(UserContext)
+  const status = React.useContext(CompletionContext)
+
   return (
     <PageLayout title="Curriculum" controls={<Assignment/>}>
 
@@ -31,17 +38,7 @@ export default function Courses() {
           web comics and animation with limited drawing or technical skills, using mainly freely
           available software.
         </Typography>
-{/*
-        <Stack
-          sx={{ pt: 4 }}
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-        >
-          <Button variant="contained">Main call to action</Button>
-          <Button variant="outlined">Secondary action</Button>
-        </Stack>
-  */}
+
       </Container>
 
       {/* List of categories and courses per category */}
@@ -59,9 +56,7 @@ export default function Courses() {
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardMedia
                       component="img"
-                      sx={{
-                        pt: '56.25%', // 16:9
-                      }}
+                      sx={{ pt: '56.25%' }}
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
@@ -75,12 +70,13 @@ export default function Courses() {
                     </CardContent>
                     <CardActions>
                       <Stack sx={{ width: "100%" }} direction="row" justifyContent="space-between">
-                        <Button href={"/course/" + course.path}>
+                        <Button href={Curriculum.pathToCourse(course)}>
                           Go to Course
                         </Button>
                         <Switch
-                          defaultChecked={Completion.courseCompleted(course)}
-                          onChange={e => Completion.setCourseCompleted(course, e.target.checked)}
+                          disabled={user == null}
+                          checked={Completion.courseCompleted(status, course)}
+                          onChange={e => Completion.setCourseCompleted(user, course, e.target.checked)}
                         />
                       </Stack>
                     </CardActions>

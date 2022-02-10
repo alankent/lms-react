@@ -1,20 +1,27 @@
+import React from 'react'
 import firebaseDb from '../helpers/db'
 import firebaseAuth from '../helpers/auth'
 import { getDatabase, ref, onValue, update } from "firebase/database";
 
 
+// These two are kept in sync so we have access here, outside a react function.
+// We only ever update this structure in this file.
 var idStatus = {}
-var currentUser
+
+// Callback function to update status information.
+var tellReactStatusUpdated = null
 
 
-
-// Allow read/write access on all documents to any user signed in to the application
-// https://www.freecodecamp.org/news/react-firebase-authentication-and-crud-operations/
-/*
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+/* Firebase rules to protect database
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "completed": {
+      "$uid": {
+        ".read": "$uid == auth.uid",
+        ".write": "$uid == auth.uid"
+      }
     }
   }
 }
@@ -22,71 +29,85 @@ service cloud.firestore {
 
 // This synchronizes the whole idStatus for a user in a single big JSON lump.
 // 
-function updateDatabase() {
-
-  if (currentUser === undefined) return;
-
+function updateDatabase(user) {
+  if (user == null) {
+    console.warn("Tried to update database without logging on! (user == null)")
+    return
+  }
+  var r = ref(firebaseDb)
+  if (r === undefined || r === null) {
+    console.warn("Cannot connect to database (authentication failed?)")
+    return
+  }
   var updates = {}
-  updates["/completed/" + currentUser.id] = idStatus
-  var status = update(ref(firebaseDb), updates)
-  console.log("UPDATED DATABASE for " + currentUser.id)
+  updates["/completed/" + user.id] = idStatus
+  var status = update(r, updates)
+  console.log("UPDATED DATABASE for " + user.id)
+  console.log(idStatus)
+
+  if (tellReactStatusUpdated) {
+    tellReactStatusUpdated(idStatus)
+  }
 }
 
 
 const Completion = {
 
-  setAuthenticatedUser(user) {
-    console.log("COMPLETION")
-    {//if (user?.id !== currentUser?.id) {
-      currentUser = user
-      console.log("  NEW USER")
-      console.log(currentUser)
-
-      // Listen for DB updates for this user id.
-      if (currentUser) {
-        const completedRef = ref(firebaseDb, 'completed/' + currentUser.id);
-        onValue(completedRef, (snapshot) => {
-          var newStatus = snapshot.val();
-          console.log("RECEIVED DATABASE UPDATE FOR " + currentUser.id);
-          console.log(newStatus)
-          if (newStatus !== null) {
-            idStatus = newStatus
-          }
-        });
-      }
+  registerStateUpdateCallback(setState) {
+    console.log("Registered status update callback")
+    tellReactStatusUpdated = (newStatus) => {
+      console.log("TELLING REACT TO UPDATE STATUS")
+      console.log(newStatus)
+      setState(newStatus)
     }
   },
 
-  // Return true if connected to firestore
-  connected() {
-    return currentUser !== undefined
+  listenForUpdates(user) {
+    console.log("COMPLETION LISTEN FOR UPDATES")
+    console.log(user)
+
+    // Listen for DB updates for this user id.
+    if (user) {
+      const completedRef = ref(firebaseDb, 'completed/' + user.id);
+      onValue(completedRef, (snapshot) => {
+        var newStatus = snapshot.val();
+        console.log("RECEIVED DATABASE UPDATE FOR " + user.id);
+        console.log(newStatus)
+        if (newStatus !== null) {
+          idStatus = newStatus
+          tellReactStatusUpdated(idStatus)
+        }
+      });
+    }
   },
 
   // Return true if the specified course has been completed.
-  courseCompleted(course) {
-    var response = idStatus[course.id] ? true : false
+  courseCompleted(status, course) {
+    var response = status[course.id] ? true : false
     //console.log("Course " + course.id + " completed=" + response)
     return response
   },
 
-  setCourseCompleted(course, value) {
+  setCourseCompleted(user, course, value) {
     idStatus[course.id] = value
-    updateDatabase()
+    updateDatabase(user)
     //console.log("Marked " + course.id + " as completed=" + value)
   },
 
-  lessonCompleted(lesson) {
-    var response = idStatus[lesson.id] ? true : false
+  lessonCompleted(status, lesson) {
+    var response = status[lesson.id] ? true : false
     console.log("Lesson " + lesson.id + " completed=" + response)
     return response
   },
 
-  setLessonCompleted(lesson, value) {
+  setLessonCompleted(user, lesson, value) {
     idStatus[lesson.id] = value
-    updateDatabase()
+    updateDatabase(user, )
     console.log("Marked " + lesson.id + " as completed=" + value)
   },
 
 }
+
+export const CompletionContext = React.createContext(idStatus)
 
 export default Completion

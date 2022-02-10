@@ -10,6 +10,9 @@ import PageLayout from './PageLayout'
 import Link from 'next/link'
 import Curriculum from './Curriculum'
 import Completion from './Completion'
+import { UserContext } from '../helpers/auth'
+import React from 'react'
+import Router from 'next/router'
 
 
 export default function LessonPageLayout({ id, children }) {
@@ -19,6 +22,7 @@ export default function LessonPageLayout({ id, children }) {
   const prevLesson = Curriculum.findPrevLessonById(id)
   const course = Curriculum.findCourseByLessonId(id)
   const topic = Curriculum.findTopicByLessonId(id)
+  const user = React.useContext(UserContext)
 
   // For top right corner of screen
   const iconControls = (
@@ -74,32 +78,32 @@ export default function LessonPageLayout({ id, children }) {
         )}
         */}
 
-        {/*Completion.connected()*/true &&
-          (nextLesson ? (
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ width: "100%" }}
-              onClick={e => {
-                Completion.setLessonCompleted(lesson, true)
-                window.open(Curriculum.pathToLesson(course, nextLesson), "_self")
-              }}
-            >
-              Mark complete and continue to next lesson
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ width: "100%" }}
-              onClick={e => {
-                Completion.setLessonCompleted(lesson, true)
-                window.open(Curriculum.pathToCourse(course), "_self")
-              }}
-            >
-              Mark complete and return to course list
-            </Button>
-          )
+        {nextLesson ? (
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: "100%" }}
+            enabled={user}
+            onClick={e => {
+              Completion.setLessonCompleted(user, lesson, true)
+              Router.push(Curriculum.pathToLesson(course, nextLesson))
+            }}
+          >
+            Mark complete and continue to next lesson
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: "100%" }}
+            enabled={user}
+            onClick={e => {
+              Completion.setLessonCompleted(lesson, true)
+              Router.pushopen(Curriculum.pathToCourse(course))
+            }}
+          >
+            Mark complete and return to course page
+          </Button>
         )}
 
       </Container>
@@ -118,7 +122,7 @@ export default function LessonPageLayout({ id, children }) {
         <Button
           sx={{ width: "50%" }}
           href={Curriculum.pathToCourse(course)}>
-          Return to course list
+          Return to course page
         </Button>
 
       </Container>

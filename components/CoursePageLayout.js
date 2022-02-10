@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Switch from '@mui/material/Switch'
@@ -10,17 +11,24 @@ import Link from 'next/link'
 import IconButton from 'next/link'
 import Curriculum from './Curriculum'
 import Completion from './Completion'
+import Router from 'next/router'
+import { UserContext } from '../helpers/auth'
+import { CompletionContext } from '../components/Completion'
 
 
 export default function CoursePageLayout({ id }) {
 
   const course = Curriculum.findCourseByCourseId(id)
+  const user = React.useContext(UserContext)
+  const status = React.useContext(CompletionContext)
+  console.log("COURSE PAGE")
+  console.log(status)
 
   return (
     <PageLayout
       title={course.course_label + ": " + course.title}
       controls={
-        <IconButton sx={{ color: "white" }} href="/courses" aria-label="Course list">
+        <IconButton sx={{ color: "white" }} href={Curriculum.pathToCourseList()} aria-label="Course list">
           <Close/>
         </IconButton>
       }
@@ -66,12 +74,11 @@ export default function CoursePageLayout({ id }) {
                       <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
                         Go to Lesson
                       </Button>
-                      {/*Completion.connected()*/true &&
-                        <Switch
-                          defaultChecked={Completion.lessonCompleted(lesson)}
-                          onChange={e => Completion.setLessonCompleted(lesson, e.target.checked)}
-                        />
-                      }
+                      <Switch
+                        disabled={user === null}
+                        checked={Completion.lessonCompleted(status, lesson)}
+                        onChange={e => Completion.setLessonCompleted(user, lesson, e.target.checked)}
+                      />
                     </Stack>
                   </Stack>
                 </Box>
@@ -83,16 +90,17 @@ export default function CoursePageLayout({ id }) {
       </Container>
 
       <Container>
-        <Button sx={{ mr: 2 }} variant="outlined" href={"/courses"}>
+        <Button sx={{ mr: 2 }} variant="outlined" href={Curriculum.pathToCourseList()}>
           Return to course list
         </Button>
         <Button
           sx={{ mr: 2 }}
           variant="contained"
           color="success"
+          disabled={user === null}
           onClick={(e) => {
-            Completion.setCourseCompleted(course, true)
-            window.open("/courses", "_self")
+            Completion.setCourseCompleted(user, course, true)
+            Router.push(Curriculum.pathToCourseList())
           }}
         >
           Mark as Done

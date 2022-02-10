@@ -10,21 +10,47 @@ import Stack from '@mui/material/Stack'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
 import Completion from '../components/Completion'
-import { signInWithGoogle, signOutFromSite, AuthContext } from '../helpers/auth'
+import { userDetails, firebaseAuth, UserContext, UpdateUserContext } from '../helpers/auth'
+import { signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 
 export default function PageHeader({ title, controls }) {
 
-  const {user, setUser} = React.useContext(AuthContext)
+  const user = React.useContext(UserContext)
+  const setUser = React.useContext(UpdateUserContext)
 
-  console.log("IN PageHeader")
-  console.log(user)
+  console.log("IN PageHeader", user)
 
-  var setUser2 = (user) => {
-    console.log("SET USER TO...");
+  const handleSignIn = () => {
+    const provider = new GoogleAuthProvider()
+    provider.setCustomParameters({ prompt: "select_account" })
+    signInWithRedirect(firebaseAuth, provider)
+  }
+
+  React.useEffect(() => {
+    getRedirectResult(firebaseAuth)
+      .then(function(result) {
+        console.log("IN SIGN-IN USE EFFECT HOOK")
+        console.log(result)
+        if (result != null) {
+          const user = userDetails(result.user)
+          setUser(user)
+          Completion.listenForUpdates(user)
+        }
+      })
+      .catch(function(error) {
+        console.log(error.code, error.message)
+      })
+  })
+
+  const handleSignOut = () => {
+    console.log("REGISTERING SIGN *OFF* FOR...");
     console.log(user);
-    Completion.setAuthenticatedUser(user)
-    return setUser(user)
+    signOut(firebaseAuth).then(() => {
+      setUser(null)
+    }).catch((error) => {
+      console.log(error.code, error.message)
+    })
   }
   
   return (
@@ -36,14 +62,14 @@ export default function PageHeader({ title, controls }) {
         </Typography>
         <Box>
           {(user === null) ? (
-            <IconButton sx={{ color: "white" }} onClick={() => signInWithGoogle(setUser2)}>
+            <IconButton sx={{ color: "white" }} onClick={handleSignIn}>
               <AccountCircle/>
             </IconButton>
           ) : (
             <Stack direction="row">
               {/* <img> returns warning to use <Image>. <Image> does not let you use Google URLs. Ugg. */}
               <div dangerouslySetInnerHTML={{__html: '<img width="40" height="40" style="border-radius: 50%;" src="' + user.photoURL + '">'}}></div>
-              <IconButton sx={{ color: "white" }} onClick={() => signOutFromSite(setUser2)}>
+              <IconButton sx={{ color: "white" }} onClick={handleSignOut}>
                 <Logout/>
               </IconButton>
             </Stack>

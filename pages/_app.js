@@ -1,36 +1,28 @@
-import React, { useEffect } from 'react'
-import Head from 'next/Head'
+import React from 'react'
 import MUICookieConsent from '../components/MUICookieConsent'
-import { signInWithGoogle, firebaseAuth, AuthContext, userDetails } from '../helpers/auth'
+import { UserContext, UpdateUserContext, currentUser } from '../helpers/auth'
+import Completion, { CompletionContext } from '../components/Completion'
 
 
 function MyApp({ Component, pageProps }) {
 
-  const [user, setUser] = React.useState(userDetails(firebaseAuth.currentUser))
-
-  /*
-  // Rerender if the user id changes by the end of rendering (due to popups etc)
-  useEffect(() => {
-    firebaseAuth.onAuthStateChanged(u => {
-      if (u?.id !== user?.id) {
-        console.log("ON AUTH STATE -- CHANGED")
-        console.log(u)
-        setUser(userDetails(u))
-      } else {
-        console.log("ON AUTH STATE -- UNCHANGED")
-      }
-    });
-  })
-  */
+  console.log("IN MY APP", currentUser())
+  const [user, setUser] = React.useState(currentUser())
+  const [status, setStatus] = React.useState({})
+  Completion.registerStateUpdateCallback(setStatus)
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
-      <Component {...pageProps} />
-      <MUICookieConsent
-        cookieName="ConsentCookie"
-        message="This site uses cookies to work out which lessons are popular and to save your progress."
-      />
-    </AuthContext.Provider>
+    <UserContext.Provider value={user}>
+      <UpdateUserContext.Provider value={setUser}>
+        <CompletionContext.Provider value={status}>
+          <Component {...pageProps} />
+          <MUICookieConsent
+            cookieName="ConsentCookie"
+            message="This site uses cookies to work out which lessons are popular and to save your progress."
+          />
+        </CompletionContext.Provider>
+      </UpdateUserContext.Provider>
+    </UserContext.Provider>
   )
 }
 

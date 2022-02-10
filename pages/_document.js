@@ -1,5 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
-import MUICookieConsent from '../components/MUICookieConsent'
+import { Html, Head, Main, NextScript } from 'next/document'
 
 
 function MyDocument() {
@@ -25,4 +24,3 @@ function MyDocument() {
 }
 
 export default MyDocument
-

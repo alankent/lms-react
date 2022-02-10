@@ -171,3 +171,7 @@ Curriculum.pathToCourse = function pathToCourse(course) {
 Curriculum.pathToLesson = function pathToLesson(course, lesson) {
   return course && lesson && ("/course/" + course.path + "/" + lesson.path);
 }
+
+Curriculum.pathToCourseList = function pathToCourseList() {
+  return "/courses";
+}
