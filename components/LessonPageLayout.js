@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -13,6 +14,14 @@ import Completion from './Completion'
 import { UserContext } from '../helpers/auth'
 import React from 'react'
 import Router from 'next/router'
+
+
+/*
+const ConditionalWrapper = ({ condition, wrapper, children }) =>
+  condition ? wrapper(children) : children;
+
+<ConditionalWrapper condition={user == null} wrapper={children => <Tooltip title="Log in to save progress"><div>{children}</div></Tooltip>}>
+*/
 
 
 export default function LessonPageLayout({ id, children }) {
@@ -83,26 +92,26 @@ export default function LessonPageLayout({ id, children }) {
             variant="contained"
             color="success"
             sx={{ width: "100%" }}
-            enabled={user}
+            disabled={user == null}
             onClick={e => {
               Completion.setLessonCompleted(user, lesson, true)
               Router.push(Curriculum.pathToLesson(course, nextLesson))
             }}
           >
-            Mark complete and continue to next lesson
+            {user == null ? "Log in to save progress" : "DONE, NEXT LESSON!"}
           </Button>
         ) : (
           <Button
             variant="contained"
             color="success"
             sx={{ width: "100%" }}
-            enabled={user}
+            disabled={user == null}
             onClick={e => {
               Completion.setLessonCompleted(lesson, true)
               Router.pushopen(Curriculum.pathToCourse(course))
             }}
           >
-            Mark complete and return to course page
+            {user == null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
           </Button>
         )}
 
@@ -111,18 +120,16 @@ export default function LessonPageLayout({ id, children }) {
 
         {nextLesson ? (
           <Button sx={{ width: "50%" }} href={Curriculum.pathToLesson(course, nextLesson)}>
-            Continue to next lesson
+            NEXT LESSON
           </Button>
         ) : (
           <Button sx={{ width: "50%" }} disabled>
-            Continue to next lesson
+            NEXT LESSON
           </Button>
         )}
 
-        <Button
-          sx={{ width: "50%" }}
-          href={Curriculum.pathToCourse(course)}>
-          Return to course page
+        <Button sx={{ width: "50%" }} href={Curriculum.pathToCourse(course)}>
+          COURSE PAGE
         </Button>
 
       </Container>

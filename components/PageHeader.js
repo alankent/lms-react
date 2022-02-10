@@ -25,13 +25,13 @@ export default function PageHeader({ title, controls }) {
     const provider = new GoogleAuthProvider()
     provider.setCustomParameters({ prompt: "select_account" })
     signInWithRedirect(firebaseAuth, provider)
+    console.log(firebaseAuth)
   }
 
   React.useEffect(() => {
     getRedirectResult(firebaseAuth)
       .then(function(result) {
-        console.log("IN SIGN-IN USE EFFECT HOOK")
-        console.log(result)
+        console.log("IN SIGN-IN USE EFFECT HOOK", result)
         if (result != null) {
           const user = userDetails(result.user)
           setUser(user)
@@ -44,8 +44,7 @@ export default function PageHeader({ title, controls }) {
   })
 
   const handleSignOut = () => {
-    console.log("REGISTERING SIGN *OFF* FOR...");
-    console.log(user);
+    console.log("REGISTERING SIGN *OFF* FOR...", user);
     signOut(firebaseAuth).then(() => {
       setUser(null)
     }).catch((error) => {

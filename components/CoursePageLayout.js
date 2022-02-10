@@ -66,13 +66,13 @@ export default function CoursePageLayout({ id }) {
                           {topic.topic_label}.{lesson.lesson_label} {lesson.title}
                         </Typography>
                         <Typography component="span" align="left" color="text.secondary" gutterBottom>
-                          {lesson.description}
+                          {lesson.description + (lesson.duration ? " [" + lesson.duration + "]" : "")}
                         </Typography>
                       </Box>
                     </Link>
-                    <Stack direction="row">
+                    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="center" alignItems="center">
                       <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
-                        Go to Lesson
+                        VIEW LESSON
                       </Button>
                       <Switch
                         disabled={user === null}
