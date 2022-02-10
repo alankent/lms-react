@@ -16,7 +16,7 @@ import { UserContext } from '../helpers/auth'
 import { CompletionContext } from '../components/Completion'
 
 
-export default function CoursePageLayout({ id }) {
+export default function CoursePageLayout({ id, children }) {
 
   const course = Curriculum.findCourseByCourseId(id)
   const user = React.useContext(UserContext)
@@ -44,6 +44,8 @@ export default function CoursePageLayout({ id }) {
         <Typography variant="h5" align="center" color="text.secondary" paragraph>
           {course.description}
         </Typography>
+
+        {children}
 
       </Container>
 
