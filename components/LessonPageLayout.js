@@ -11,6 +11,7 @@ import PageLayout from './PageLayout'
 import Link from 'next/link'
 import Curriculum from './Curriculum'
 import Completion from './Completion'
+import YouTube from './YouTube'
 import { UserContext } from '../helpers/auth'
 import React from 'react'
 import Router from 'next/router'
@@ -73,6 +74,16 @@ export default function LessonPageLayout({ id, children }) {
 
       {/* Page content area */}
       <Container sx={{ py: 8 }} maxWidth="lg">
+        {lesson.youTubeCode && (
+          <YouTube
+            title={lesson.title}
+            description={lesson.description}
+            thumbnailUrl={Curriculum.pathToLessonImage(course, lesson)}
+            published={lesson.published}
+            duration={lesson.duration}
+            youTubeCode={lesson.youTubeCode}
+          />
+        )}
         {children}
       </Container>
 

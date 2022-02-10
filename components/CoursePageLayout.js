@@ -15,6 +15,14 @@ import Router from 'next/router'
 import { UserContext } from '../helpers/auth'
 import { CompletionContext } from '../components/Completion'
 
+function formatDuration(duration) {
+  if (duration.asHours() >= 1) {
+    return "" + duration.hours() + ":" + duration.minutes() + ":" + duration.seconds();
+  } else {
+    return "" + duration.minutes() + ":" + duration.seconds();
+  }
+}
+
 
 export default function CoursePageLayout({ id, children }) {
 
@@ -69,7 +77,7 @@ export default function CoursePageLayout({ id, children }) {
                         </Typography>
                         <Box sx={{ display: { xs: 'block', sm: 'none' } }}><br /></Box>
                         <Typography component="span" align="left" color="text.secondary" gutterBottom>
-                          {lesson.description + (lesson.duration ? " [" + lesson.duration + "]" : "")}
+                          {lesson.description + (lesson.duration ? " [" + formatDuration(lesson.duration) + "]" : "")}
                         </Typography>
                       </Box>
                     </Link>
