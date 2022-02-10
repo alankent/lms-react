@@ -65,7 +65,7 @@ export default function CoursePageLayout({ id, children }) {
                     <Link href={Curriculum.pathToLesson(course, lesson)}>
                       <Box sx={{ m: 3 }}>
                         <Typography variant="h5" sx={{ mr: 2 }} component="span" align="left" color="text.primary" gutterBottom>
-                          {topic.topic_label}.{lesson.lesson_label} {lesson.title}
+                          {/*{topic.topic_label}.{lesson.lesson_label}*/} {lesson.title}
                         </Typography>
                         <Box sx={{ display: { xs: 'block', sm: 'none' } }}><br /></Box>
                         <Typography component="span" align="left" color="text.secondary" gutterBottom>
@@ -92,21 +92,24 @@ export default function CoursePageLayout({ id, children }) {
         ))}
       </Container>
 
-      <Container>
-        <Button sx={{ mr: 2 }} variant="outlined" href={Curriculum.pathToCourseList()}>
-          Return to course list
-        </Button>
+      <Container maxWidth="md">
         <Button
-          sx={{ mr: 2 }}
           variant="contained"
           color="success"
           disabled={user === null}
+          sx={{ width: "100%" }}
           onClick={(e) => {
             Completion.setCourseCompleted(user, course, true)
             Router.push(Curriculum.pathToCourseList())
           }}
         >
-          Mark as Done
+          {user == null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
+        </Button>
+      </Container>
+
+      <Container maxWidth="md">
+        <Button sx={{ width: "100%" }} href={Curriculum.pathToCourseList()}>
+          COURSE PAGE
         </Button>
       </Container>
 
