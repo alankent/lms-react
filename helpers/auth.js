@@ -1,12 +1,8 @@
 import React from 'react'
-import app from './firebaseConfig'
-import { getAuth, setPersistence, browserSessionPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth'
+import firebaseInit from './firebaseConfig'
 
 
-export const firebaseAuth = getAuth(app)
-console.log("AUTH IS STARTING!")
-console.log(firebaseAuth)
-
+const { auth } = firebaseInit()
 
 export function userDetails(user) {
   if (user === null || user === undefined) return null;
@@ -19,9 +15,13 @@ export function userDetails(user) {
 }
 
 export function currentUser() {
-  console.log("AUTH CURRENT-USER = ")
-  var user = userDetails(firebaseAuth.currentUser)
-  console.log(user)
+  console.log("BEFORE CURRENT USER, AUTH is", auth)
+  console.log(auth.currentUser)
+  //console.log(auth.currentUser?.uid)
+  //console.log(auth.currentUser?.email)
+  //console.log(auth.currentUser?.photoURL)
+  const user = userDetails(auth.currentUser)
+  console.log("AUTH CURRENT-USER = ", user)
   return user
 }
 
@@ -29,4 +29,3 @@ export function currentUser() {
 export const UserContext = React.createContext(null)
 export const UpdateUserContext = React.createContext(null)
 
-export default firebaseAuth

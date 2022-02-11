@@ -1,8 +1,8 @@
 import React from 'react'
-import firebaseDb from '../helpers/db'
-import firebaseAuth from '../helpers/auth'
-import { getDatabase, ref, onValue, update } from "firebase/database";
+import firebaseInit from '../helpers/firebaseConfig'
+import { ref, onValue, update } from 'firebase/database'
 
+const { db } = firebaseInit()
 
 // These two are kept in sync so we have access here, outside a react function.
 // We only ever update this structure in this file.
@@ -34,7 +34,7 @@ function updateDatabase(user) {
     console.warn("Tried to update database without logging on! (user == null)")
     return
   }
-  var r = ref(firebaseDb)
+  var r = ref(db)
   if (r === undefined || r === null) {
     console.warn("Cannot connect to database (authentication failed?)")
     return
@@ -68,7 +68,7 @@ const Completion = {
 
     // Listen for DB updates for this user id.
     if (user) {
-      const completedRef = ref(firebaseDb, 'completed/' + user.id);
+      const completedRef = ref(db, 'completed/' + user.id);
       onValue(completedRef, (snapshot) => {
         var newStatus = snapshot.val();
         console.log("RECEIVED DATABASE UPDATE FOR " + user.id);

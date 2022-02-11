@@ -10,11 +10,14 @@ import Stack from '@mui/material/Stack'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
 import Completion from '../components/Completion'
-import { userDetails, firebaseAuth, UserContext, UpdateUserContext } from '../helpers/auth'
+import firebaseInit from '../helpers/firebaseConfig'
+import { userDetails, UserContext, UpdateUserContext } from '../helpers/auth'
 import { signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 
 export default function PageHeader({ title, controls }) {
+
+  const { auth } = firebaseInit()
 
   const user = React.useContext(UserContext)
   const setUser = React.useContext(UpdateUserContext)
@@ -24,12 +27,12 @@ export default function PageHeader({ title, controls }) {
   const handleSignIn = () => {
     const provider = new GoogleAuthProvider()
     provider.setCustomParameters({ prompt: "select_account" })
-    signInWithRedirect(firebaseAuth, provider)
-    console.log(firebaseAuth)
+    signInWithRedirect(auth, provider)
+    console.log(auth)
   }
 
   React.useEffect(() => {
-    getRedirectResult(firebaseAuth)
+    getRedirectResult(auth)
       .then(function(result) {
         console.log("IN SIGN-IN USE EFFECT HOOK", result)
         if (result != null) {
@@ -45,7 +48,7 @@ export default function PageHeader({ title, controls }) {
 
   const handleSignOut = () => {
     console.log("REGISTERING SIGN *OFF* FOR...", user);
-    signOut(firebaseAuth).then(() => {
+    signOut(auth).then(() => {
       setUser(null)
     }).catch((error) => {
       console.log(error.code, error.message)

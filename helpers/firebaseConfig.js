@@ -1,8 +1,7 @@
-//import firebase from 'firebase'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
+import { getDatabase } from 'firebase/database'
 import { getAnalytics } from "firebase/analytics";
-//import 'firebase/auth'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -17,14 +16,8 @@ const firebaseConfig = {
   measurementId: "G-4MD15GXFF1"
 };
 
-// Initialize Firebase
-//const app = initializeApp(firebaseConfig);
-//const analytics = getAnalytics(app);
 
 /*
-// Required for side-effects
-//require('firebase/firestore');
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -37,9 +30,28 @@ const firebaseConfig = {
 };
 */
 
-//console.log(firebaseConfig)
+var app
+var auth
+var db
 
-const app = initializeApp(firebaseConfig)
-export default app
+export default function firebaseInit() {
 
-//console.log(app)
+  if (!app) {
+
+    app = initializeApp(firebaseConfig, "Extra Ordinary LMS")
+    //console.log("APP IS", app)
+
+    auth = getAuth(app)
+    //console.log("AUTH IS", auth)
+
+    db = getDatabase(app)
+    //console.log("DB IS", db)
+
+    //analytics = getAnalytics(app);
+
+  } else {
+    //console.log("APP IS <ALREADY INITIALIZED!>")
+  }
+
+  return { app, auth, db }
+}

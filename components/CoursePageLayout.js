@@ -13,7 +13,6 @@ import Curriculum from './Curriculum'
 import Completion from './Completion'
 import StructuredData from './StructuredData'
 import Router from 'next/router'
-import Image from 'next/image'
 import { UserContext } from '../helpers/auth'
 import { CompletionContext } from '../components/Completion'
 
