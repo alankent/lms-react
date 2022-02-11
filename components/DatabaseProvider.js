@@ -81,7 +81,7 @@ function useFirebaseDatabase() {
       return
     }
     console.log("Marked " + lesson.id + " as completed=" + value)
-    //setLoading(true)
+    setLoading(true)
     completionStatus[lesson.id] = value
     setCompletionStatus(completionStatus)
     updateDatabase(db, user, completionStatus)
@@ -95,6 +95,7 @@ function useFirebaseDatabase() {
     if (newStatus !== null) {
       completionStatus = newStatus
       if (loading) {
+        console.log("SETTING LOADING TO FALSE")
         setLoading(false)
       }
     }

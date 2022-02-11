@@ -53,7 +53,7 @@ function useFirebaseAuth() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authStateChanged);
     return () => unsubscribe();
-  }, []);
+  }, []); // This causes warnings during static build, but removing as warning suggests causes infinite loop
 
   return {
     user,
