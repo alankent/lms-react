@@ -40,9 +40,9 @@ function updateDatabase(user) {
     return
   }
   var updates = {}
-  updates["/completed/" + user.id] = idStatus
+  updates["/completed/" + user.uid] = idStatus
   var status = update(r, updates)
-  console.log("UPDATED DATABASE for " + user.id)
+  console.log("UPDATED DATABASE for " + user.uid)
   console.log(idStatus)
 
   if (tellReactStatusUpdated) {
@@ -68,10 +68,10 @@ const Completion = {
 
     // Listen for DB updates for this user id.
     if (user) {
-      const completedRef = ref(db, 'completed/' + user.id);
+      const completedRef = ref(db, 'completed/' + user.uid);
       onValue(completedRef, (snapshot) => {
         var newStatus = snapshot.val();
-        console.log("RECEIVED DATABASE UPDATE FOR " + user.id);
+        console.log("RECEIVED DATABASE UPDATE FOR " + user.uid);
         console.log(newStatus)
         if (newStatus !== null) {
           idStatus = newStatus

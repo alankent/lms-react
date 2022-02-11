@@ -72,11 +72,13 @@ export default function Courses() {
                         <Button href={Curriculum.pathToCourse(course)}>
                           Go to Course
                         </Button>
-                        <Switch
-                          disabled={user == null}
-                          checked={Completion.courseCompleted(status, course)}
-                          onChange={e => Completion.setCourseCompleted(user, course, e.target.checked)}
-                        />
+                        {user && (
+                          <Switch
+                            disabled={user == null}
+                            checked={Completion.courseCompleted(status, course)}
+                            onChange={e => Completion.setCourseCompleted(user, course, e.target.checked)}
+                          />
+                        )}
                       </Stack>
                     </CardActions>
                   </Card>

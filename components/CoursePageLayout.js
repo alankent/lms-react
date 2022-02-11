@@ -100,11 +100,13 @@ export default function CoursePageLayout({ id, children }) {
                       <Button sx={{ whiteSpace: "nowrap" }} href={Curriculum.pathToLesson(course, lesson)}>
                         VIEW LESSON
                       </Button>
-                      <Switch
-                        disabled={user === null}
-                        checked={Completion.lessonCompleted(status, lesson)}
-                        onChange={e => Completion.setLessonCompleted(user, lesson, e.target.checked)}
-                      />
+                      {user && (
+                        <Switch
+                          disabled={user === null}
+                          checked={Completion.lessonCompleted(status, lesson)}
+                          onChange={e => Completion.setLessonCompleted(user, lesson, e.target.checked)}
+                        />
+                      )}
                     </Stack>
                   </Stack>
                 </Box>

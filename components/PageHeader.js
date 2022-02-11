@@ -1,17 +1,19 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Logout from '@mui/icons-material/Logout'
 import Login from '@mui/icons-material/Login'
 import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
 import Completion from '../components/Completion'
 import firebaseInit from '../helpers/firebaseConfig'
-import { userDetails, UserContext, UpdateUserContext } from '../helpers/auth'
+import { UserContext, UpdateUserContext } from '../helpers/auth'
 import { signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 
@@ -36,9 +38,8 @@ export default function PageHeader({ title, controls }) {
       .then(function(result) {
         console.log("IN SIGN-IN USE EFFECT HOOK", result)
         if (result != null) {
-          const user = userDetails(result.user)
-          setUser(user)
-          Completion.listenForUpdates(user)
+          setUser(result.user)
+          Completion.listenForUpdates(result.user)
         }
       })
       .catch(function(error) {
@@ -54,6 +55,16 @@ export default function PageHeader({ title, controls }) {
       console.log(error.code, error.message)
     })
   }
+
+  /* Alternatives for login button
+  <IconButton sx={{ color: "white" }} onClick={handleSignIn}>
+    <AccountCircle/>
+  </IconButton>
+
+  <Typography variant="h6" component="span" color="inherit" noWrap>
+    Login
+  </Typography>
+  */
   
   return (
     <AppBar position="relative">
@@ -64,13 +75,19 @@ export default function PageHeader({ title, controls }) {
         </Typography>
         <Box>
           {(user === null) ? (
-            <IconButton sx={{ color: "white" }} onClick={handleSignIn}>
-              <AccountCircle/>
-            </IconButton>
+            <Tooltip title="Log in to save your progress as you complete lessons">
+              <Button variant="text" sx={{ color: "white" }} onClick={handleSignIn}>
+                LOGIN
+              </Button>
+            </Tooltip>
           ) : (
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center">
               {/* <img> returns warning to use <Image>. <Image> does not let you use Google URLs. Ugg. */}
-              <div dangerouslySetInnerHTML={{__html: '<img width="40" height="40" style="border-radius: 50%;" src="' + user.photoURL + '">'}}></div>
+              {/* Sometimes the photo does not appear, but it might be related to other sign-in/out problems I am having. */}
+              {/* <div dangerouslySetInnerHTML={{__html: '<img width="40" height="40" style="border-radius: 50%;" src="' + user.photoURL + '">'}}></div> */}
+              <Typography variant="h6" component="span" color="inherit" noWrap>
+                {user.displayName}
+              </Typography>
               <IconButton sx={{ color: "white" }} onClick={handleSignOut}>
                 <Logout/>
               </IconButton>
