@@ -11,15 +11,17 @@ import Link from 'next/link'
 import IconButton from 'next/link'
 import Curriculum from './Curriculum'
 import Completion from './Completion'
+import StructuredData from './StructuredData'
 import Router from 'next/router'
+import Image from 'next/image'
 import { UserContext } from '../helpers/auth'
 import { CompletionContext } from '../components/Completion'
 
 function formatDuration(duration) {
   if (duration.asHours() >= 1) {
-    return "" + duration.hours() + ":" + duration.minutes() + ":" + duration.seconds();
+    return "" + duration.hours() + "h" + duration.minutes() + "m" + duration.seconds() + "s";
   } else {
-    return "" + duration.minutes() + ":" + duration.seconds();
+    return "" + duration.minutes() + "m" + duration.seconds() + "s";
   }
 }
 
@@ -32,6 +34,19 @@ export default function CoursePageLayout({ id, children }) {
   console.log("COURSE PAGE")
   console.log(status)
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": course.title,
+    "description": course.description,
+    "courseCode": course.course_label,
+    "provider": {
+      "@type": "Person",
+      "name": "Alan Kent",
+      "url": "http://extra-ordinary.tv/"
+    }
+  }
+
   return (
     <PageLayout
       title={course.course_label + ": " + course.title}
@@ -41,6 +56,7 @@ export default function CoursePageLayout({ id, children }) {
         </IconButton>
       }
     >
+      <StructuredData data={structuredData}/>
 
       {/* Page title area */}
       <Container maxWidth="md">
