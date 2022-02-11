@@ -13,15 +13,14 @@ import Container from '@mui/material/Container'
 import Link from 'next/link';
 import PageLayout from '../components/PageLayout'
 import Curriculum from '../components/Curriculum'
-import Completion from '../components/Completion'
 import Assignment from '@mui/icons-material/Assignment'
-import { UserContext } from '../helpers/auth'
-import { CompletionContext } from '../components/Completion'
+import { useAuth } from '../components/AuthUserProvider'
+import { useDatabase } from '../components/DatabaseProvider'
 
 export default function Courses() {
 
-  const user = React.useContext(UserContext)
-  const status = React.useContext(CompletionContext)
+  const { user } = useAuth();
+  const { loading, courseCompleted, setCourseCompleted } = useDatabase();
 
   return (
     <PageLayout title="Curriculum" controls={<Assignment/>}>
@@ -74,9 +73,9 @@ export default function Courses() {
                         </Button>
                         {user && (
                           <Switch
-                            disabled={user == null}
-                            checked={Completion.courseCompleted(status, course)}
-                            onChange={e => Completion.setCourseCompleted(user, course, e.target.checked)}
+                            disabled={loading}
+                            checked={courseCompleted(course)}
+                            onChange={e => setCourseCompleted(course, e.target.checked)}
                           />
                         )}
                       </Stack>

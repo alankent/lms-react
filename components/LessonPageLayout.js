@@ -10,11 +10,11 @@ import Close from '@mui/icons-material/Close'
 import PageLayout from './PageLayout'
 import Link from 'next/link'
 import Curriculum from './Curriculum'
-import Completion from './Completion'
 import YouTube from './YouTube'
-import { UserContext } from '../helpers/auth'
 import React from 'react'
 import Router from 'next/router'
+import { useAuth } from '../components/AuthUserProvider'
+import { useDatabase } from '../components/DatabaseProvider'
 
 
 /*
@@ -32,7 +32,8 @@ export default function LessonPageLayout({ id, children }) {
   const prevLesson = Curriculum.findPrevLessonById(id)
   const course = Curriculum.findCourseByLessonId(id)
   const topic = Curriculum.findTopicByLessonId(id)
-  const user = React.useContext(UserContext)
+  const { user } = useAuth();
+  const { loading, setLessonCompleted } = useDatabase();
 
   // For top right corner of screen
   const iconControls = (
@@ -103,9 +104,9 @@ export default function LessonPageLayout({ id, children }) {
             variant="contained"
             color="success"
             sx={{ width: "100%" }}
-            disabled={user == null}
+            disabled={loading}
             onClick={e => {
-              Completion.setLessonCompleted(user, lesson, true)
+              setLessonCompleted(lesson, true)
               Router.push(Curriculum.pathToLesson(course, nextLesson))
             }}
           >
@@ -116,9 +117,9 @@ export default function LessonPageLayout({ id, children }) {
             variant="contained"
             color="success"
             sx={{ width: "100%" }}
-            disabled={user == null}
+            disabled={loading}
             onClick={e => {
-              Completion.setLessonCompleted(lesson, true)
+              setLessonCompleted(lesson, true)
               Router.pushopen(Curriculum.pathToCourse(course))
             }}
           >

@@ -10,11 +10,10 @@ import PageLayout from './PageLayout'
 import Link from 'next/link'
 import IconButton from 'next/link'
 import Curriculum from './Curriculum'
-import Completion from './Completion'
 import StructuredData from './StructuredData'
 import Router from 'next/router'
-import { UserContext } from '../helpers/auth'
-import { CompletionContext } from '../components/Completion'
+import { useAuth } from '../components/AuthUserProvider'
+import { useDatabase } from '../components/DatabaseProvider'
 
 function formatDuration(duration) {
   if (duration.asHours() >= 1) {
@@ -24,14 +23,12 @@ function formatDuration(duration) {
   }
 }
 
-
 export default function CoursePageLayout({ id, children }) {
 
   const course = Curriculum.findCourseByCourseId(id)
-  const user = React.useContext(UserContext)
-  const status = React.useContext(CompletionContext)
-  console.log("COURSE PAGE")
-  console.log(status)
+  const { user } = useAuth();
+  const { loading, completionStatus, lessonCompleted, setLessonCompleted, setCourseCompleted } = useDatabase();
+  console.log("COURSE PAGE", completionStatus)
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -102,9 +99,9 @@ export default function CoursePageLayout({ id, children }) {
                       </Button>
                       {user && (
                         <Switch
-                          disabled={user === null}
-                          checked={Completion.lessonCompleted(status, lesson)}
-                          onChange={e => Completion.setLessonCompleted(user, lesson, e.target.checked)}
+                          disabled={loading}
+                          checked={lessonCompleted(lesson)}
+                          onChange={e => setLessonCompleted(lesson, e.target.checked)}
                         />
                       )}
                     </Stack>
@@ -124,7 +121,7 @@ export default function CoursePageLayout({ id, children }) {
           disabled={user === null}
           sx={{ width: "100%" }}
           onClick={(e) => {
-            Completion.setCourseCompleted(user, course, true)
+            setCourseCompleted(course, true)
             Router.push(Curriculum.pathToCourseList())
           }}
         >

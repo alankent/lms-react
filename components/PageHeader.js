@@ -11,49 +11,20 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
-import Completion from '../components/Completion'
-import firebaseInit from '../helpers/firebaseConfig'
-import { UserContext, UpdateUserContext } from '../helpers/auth'
-import { signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'firebase/auth'
+import { useAuth } from '../components/AuthUserProvider'
 
 
 export default function PageHeader({ title, controls }) {
 
-  const { auth } = firebaseInit()
-
-  const user = React.useContext(UserContext)
-  const setUser = React.useContext(UpdateUserContext)
+  const { user, signIn, signOut } = useAuth();
 
   console.log("IN PageHeader", user)
 
   const handleSignIn = () => {
-    const provider = new GoogleAuthProvider()
-    provider.setCustomParameters({ prompt: "select_account" })
-    signInWithRedirect(auth, provider)
-    console.log(auth)
+    signIn()
   }
-
-  React.useEffect(() => {
-    getRedirectResult(auth)
-      .then(function(result) {
-        console.log("IN SIGN-IN USE EFFECT HOOK", result)
-        if (result != null) {
-          setUser(result.user)
-          Completion.listenForUpdates(result.user)
-        }
-      })
-      .catch(function(error) {
-        console.log(error.code, error.message)
-      })
-  })
-
   const handleSignOut = () => {
-    console.log("REGISTERING SIGN *OFF* FOR...", user);
-    signOut(auth).then(() => {
-      setUser(null)
-    }).catch((error) => {
-      console.log(error.code, error.message)
-    })
+    signOut()
   }
 
   /* Alternatives for login button
