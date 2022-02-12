@@ -11,6 +11,9 @@ import Link from 'next/link'
 import IconButton from 'next/link'
 import Curriculum from '../helpers/Curriculum'
 import StructuredData from './StructuredData'
+import HtmlMetaTags from './HtmlMetaTags'
+import TwitterMetaTags from './TwitterMetaTags'
+import OpenGraphMetaTags from './OpenGraphMetaTags'
 import Router from 'next/router'
 import { useAuth } from '../components/AuthUserProvider'
 import { useDatabase } from '../components/DatabaseProvider'
@@ -61,6 +64,9 @@ export default function CoursePageLayout({ id, children }) {
       }
     >
       <StructuredData data={structuredData}/>
+      <HtmlMetaTags title={course.title} description={course.description} />
+      <TwitterMetaTags title={course.title} description={course.description} site="@akent99" creator="@akent99" />
+      <OpenGraphMetaTags type="website" title={course.title} description={course.description} locale="en_US" />
 
       {/* Page title area */}
       <Container maxWidth="md">

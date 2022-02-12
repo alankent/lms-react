@@ -11,6 +11,9 @@ import PageLayout from './PageLayout'
 import Link from 'next/link'
 import Curriculum from '../helpers/Curriculum'
 import YouTube from './YouTube'
+import HtmlMetaTags from './HtmlMetaTags'
+import TwitterMetaTags from './TwitterMetaTags'
+import OpenGraphMetaTags from './OpenGraphMetaTags'
 import React from 'react'
 import Router from 'next/router'
 import { useAuth } from '../components/AuthUserProvider'
@@ -53,6 +56,9 @@ export default function LessonPageLayout({ id, children }) {
       title={course.course_label + " " + topic.topic_label + "." + lesson.lesson_label + ": " + lesson.title}
       controls={iconControls}
     >
+      <HtmlMetaTags title={lesson.title} description={lesson.description} />
+      <TwitterMetaTags title={lesson.title} description={lesson.description} site="@akent99" creator="@akent99" />
+      <OpenGraphMetaTags type="website" title={lesson.title} description={lesson.description} locale="en_US" />
 
       {/* Page title area */}
       <Container maxWidth="md">
