@@ -137,11 +137,11 @@ export default function CoursePageLayout({ id, children }) {
       </Container>
 
       {/* Buttons at bottom of page to mark course as done */}
-      <Container maxWidth="md">
+      <Container sx={{ py: 2 }} maxWidth="md">
         <Button
           variant="contained"
           color="success"
-          disabled={user === null}
+          disabled={!user}
           sx={{ width: "100%" }}
           onClick={(e) => {
             setCourseCompleted(course, true)
