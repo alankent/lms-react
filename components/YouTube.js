@@ -2,10 +2,17 @@ import Container from '@mui/material/Container'
 import StructuredData from './StructuredData'
 import moment from 'moment'
 
+
+// Embed a YouTube video (using the embed markup suggested by YouTube).
+// Also generate structured data on the page to help search engines understand the purpose of the page.
+//
 export default function YouTube({ title, description, thumbnailUrl, published, duration, youTubeCode }) {
 
   const embedUrl = "https://www.youtube.com/embed/" + youTubeCode
 
+  // Video structured data. We cannot use the MP4 URL since its on YouTube, so have to
+  // settle for provding an embed URL.
+  // https://developers.google.com/search/docs/advanced/structured-data/video
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -19,7 +26,9 @@ export default function YouTube({ title, description, thumbnailUrl, published, d
 
   return (
     <>
+
       <StructuredData data={structuredData}/>
+
       <Container maxWidth="lg">
         <div style={{overflow: "hidden", paddingTop: "56.25%", position: "relative"}}>
           <iframe
@@ -31,6 +40,7 @@ export default function YouTube({ title, description, thumbnailUrl, published, d
             allowFullScreen></iframe>
         </div>
       </Container>
+
     </>
   );
 }

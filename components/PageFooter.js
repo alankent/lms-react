@@ -3,6 +3,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
 
+// Copyright message based on current year.
+//
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -17,22 +19,11 @@ function Copyright() {
 }
 
 
+// Page footer. Keeping it pretty light at the moment, just the copyright message.
+//
 export default function PageFooter() {
   return (
     <Box sx={{ bgcolor: 'background.paper', p: 2 }} component="footer">
-      {/*
-      <Typography variant="h6" align="center" gutterBottom>
-        More Info
-      </Typography>
-      <Typography
-        variant="subtitle1"
-        align="center"
-        color="text.secondary"
-        component="p"
-      >
-        Something here to give the footer a purpose!
-      </Typography>
-      */}
       <Copyright />
     </Box>
   );

@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { getDatabase } from 'firebase/database'
 import { getAnalytics } from "firebase/analytics";
+
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -17,6 +18,11 @@ const firebaseConfig = {
 };
 
 
+// Use this approach if you want different databases for production and
+// development environments.
+// TODO: When I use this and print out the data structure, the printout is
+// identical to the above (it loads up settings from my ".env" file), but
+// firebase reports a failure to connect! Baffling.
 /*
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -30,6 +36,10 @@ const firebaseConfig = {
 };
 */
 
+
+// TODO: Convert to session state, but make sure we only initialize
+// the connection once and reuse it every call.
+
 var app
 var auth
 var db
@@ -39,18 +49,10 @@ export default function firebaseInit() {
   if (!app) {
 
     app = initializeApp(firebaseConfig, "Extra Ordinary LMS")
-    //console.log("APP IS", app)
-
     auth = getAuth(app)
-    //console.log("AUTH IS", auth)
-
     db = getDatabase(app)
-    //console.log("DB IS", db)
-
     //analytics = getAnalytics(app);
 
-  } else {
-    //console.log("APP IS <ALREADY INITIALIZED!>")
   }
 
   return { app, auth, db }

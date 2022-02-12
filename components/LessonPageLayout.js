@@ -9,7 +9,7 @@ import ArrowForward from '@mui/icons-material/ArrowForward'
 import Close from '@mui/icons-material/Close'
 import PageLayout from './PageLayout'
 import Link from 'next/link'
-import Curriculum from './Curriculum'
+import Curriculum from '../helpers/Curriculum'
 import YouTube from './YouTube'
 import React from 'react'
 import Router from 'next/router'
@@ -17,14 +17,8 @@ import { useAuth } from '../components/AuthUserProvider'
 import { useDatabase } from '../components/DatabaseProvider'
 
 
-/*
-const ConditionalWrapper = ({ condition, wrapper, children }) =>
-  condition ? wrapper(children) : children;
-
-<ConditionalWrapper condition={user == null} wrapper={children => <Tooltip title="Log in to save progress"><div>{children}</div></Tooltip>}>
-*/
-
-
+// A lesson page. Show lesson details with buttons to make "done" at the bottom.
+//
 export default function LessonPageLayout({ id, children }) {
 
   const lesson = Curriculum.findLessonByLessonId(id)
@@ -35,7 +29,7 @@ export default function LessonPageLayout({ id, children }) {
   const { user } = useAuth();
   const { loading, setLessonCompleted } = useDatabase();
 
-  // For top right corner of screen
+  // Controls for top left corner (prev/close/next)
   const iconControls = (
     <>
     
@@ -73,7 +67,7 @@ export default function LessonPageLayout({ id, children }) {
 
       </Container>
 
-      {/* Page content area */}
+      {/* Page content area - include YouTube with lesson metadata. */}
       <Container sx={{ py: 8 }} maxWidth="lg">
         {lesson.youTubeCode && (
           <YouTube
@@ -85,20 +79,16 @@ export default function LessonPageLayout({ id, children }) {
             youTubeCode={lesson.youTubeCode}
           />
         )}
+
+        {/* You can add your own content in lesson pages on top of just a YouTube video. */}
         {children}
+
       </Container>
 
       {/* Text nav buttons */}
       <Container sx={{ py: 2 }} maxWidth="md">
 
-        {/*
-        {prevLesson ? (
-          <Button variant="outlined" sx={{ mr: 2 }} href={Curriculum.pathToLesson(course, prevLesson)}>Prev</Button>
-        ) : (
-          <Button variant="outlined" sx={{ mr: 2 }} disabled>Prev</Button>
-        )}
-        */}
-
+        {/* Link to next lesson, or to parent course page if last lesson. */}
         {nextLesson ? (
           <Button
             variant="contained"
@@ -120,7 +110,7 @@ export default function LessonPageLayout({ id, children }) {
             disabled={loading}
             onClick={e => {
               setLessonCompleted(lesson, true)
-              Router.pushopen(Curriculum.pathToCourse(course))
+              Router.push(Curriculum.pathToCourse(course))
             }}
           >
             {user == null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
@@ -128,17 +118,12 @@ export default function LessonPageLayout({ id, children }) {
         )}
 
       </Container>
+
       <Container maxWidth="md">
 
-        {nextLesson ? (
-          <Button sx={{ width: "50%" }} href={Curriculum.pathToLesson(course, nextLesson)}>
-            NEXT LESSON
-          </Button>
-        ) : (
-          <Button sx={{ width: "50%" }} disabled>
-            NEXT LESSON
-          </Button>
-        )}
+        <Button sx={{ width: "50%" }} disabled={!nextLesson} href={Curriculum.pathToLesson(course, nextLesson)}>
+          NEXT LESSON
+        </Button>
 
         <Button sx={{ width: "50%" }} href={Curriculum.pathToCourse(course)}>
           COURSE PAGE

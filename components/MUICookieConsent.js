@@ -1,5 +1,6 @@
 // Copied from https://github.com/OrigenStudio/material-ui-cookie-consent/
 // There was a npm package dependency conflict, so I just copied the code.
+// Removed typescript usage in it as well.
 // Copyright (c) 2019 Origen Studio, MIT License.
 
 // @flow
@@ -16,34 +17,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 var window;
 var document;
-
-/*
-type Props = {
-  componentType?: 'Dialog' | 'Snackbar',
-  cookieName: string,
-  cookieValue?: string | boolean | number,
-  acceptOnScroll?: boolean,
-  acceptOnScrollPercentage?: number,
-  onAccept?: () => void | null,
-  expires?: number | Date,
-  hideOnAccept?: boolean,
-  children?: React.Node,
-  title?: string | null,
-  message?: string,
-  acceptButtonLabel?: string,
-  debug?: boolean,
-  extraCookieOptions?: any,
-  snackbarAnchor?: {
-    horizontal: 'left' | 'center' | 'right',
-    vertical: 'top' | 'bottom',
-  },
-  actions?: ?React.Node,
-};
-
-type State = {
-  visible: boolean,
-};
-*/
 
 /**
  * This component is the MUICookieConsent it pops a Snackbar or a Dialog informing the user about cookie consent.

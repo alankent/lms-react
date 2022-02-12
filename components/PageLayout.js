@@ -7,6 +7,10 @@ import PageHeader from '../components/PageHeader';
 
 const theme = createTheme();
 
+
+// Build up a page from the header, main content, and footer.
+// (Debatable whether to put this all in pages/_app.js directly.)
+//
 export default function PageLayout({ title, children, controls }) {
   return (
     <ThemeProvider theme={theme}>
