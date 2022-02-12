@@ -22,7 +22,7 @@ const databaseContext = createContext({
 function updateDatabase(db, user, completionStatus) {
 
   if (!user) {
-    console.warn("Tried to update database without logging on! (user == null)")
+    console.warn("Tried to update database without logging on! (user = null)")
     return
   }
   var r = ref(db)
@@ -54,7 +54,7 @@ function useFirebaseDatabase() {
 
   // Return true if the user has completed this course.
   const courseCompleted = (course) => {
-    if (!user || loading || completionStatus == null) {
+    if (!user || loading || completionStatus === null) {
       return false
     }
     var response = completionStatus[course.id] ? true : false
@@ -63,7 +63,7 @@ function useFirebaseDatabase() {
 
   // Update database to match user course input selection
   const setCourseCompleted = (course, value) => {
-    if (!user || loading || completionStatus == null) {
+    if (!user || loading || completionStatus === null) {
       console.warn("Asking database to update course completion status when busy/not connected")
       return
     }
@@ -76,7 +76,7 @@ function useFirebaseDatabase() {
 
   // Return true if lesson has been completed.
   const lessonCompleted = (lesson) => {
-    if (!user || loading || completionStatus == null) {
+    if (!user || loading || completionStatus === null) {
       return false
     }
     var response = completionStatus[lesson.id] ? true : false
@@ -85,7 +85,7 @@ function useFirebaseDatabase() {
 
   // Update database to match user lesson input selection
   const setLessonCompleted = (lesson, value) => {
-    if (!user || loading || completionStatus == null) {
+    if (!user || loading || completionStatus === null) {
       console.warn("Asking database to update lesson completion status when busy/not connected")
       return
     }
@@ -102,7 +102,8 @@ function useFirebaseDatabase() {
   // listen for Firebase database state change
   const onValueChange = (snapshot) => {
     var newStatus = snapshot.val()
-    //console.log("RECEIVED DATABASE UPDATE FOR " + user.uid, newStatus)
+    console.log("RECEIVED DATABASE UPDATE FOR " + user.uid, newStatus)
+    console.log(snapshot)
     if (newStatus !== null) {
       completionStatus = newStatus
       if (loading) {

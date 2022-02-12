@@ -12,5 +12,5 @@ export default function StructuredData({ data }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
       />
     </Head>
-  );
+  )
 }

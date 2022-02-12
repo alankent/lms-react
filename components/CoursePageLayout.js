@@ -148,7 +148,7 @@ export default function CoursePageLayout({ id, children }) {
             Router.push(Curriculum.pathToCourseList())
           }}
         >
-          {user == null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
+          {user === null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
         </Button>
       </Container>
 

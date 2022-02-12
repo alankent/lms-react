@@ -42,5 +42,5 @@ export default function YouTube({ title, description, thumbnailUrl, published, d
       </Container>
 
     </>
-  );
+  )
 }

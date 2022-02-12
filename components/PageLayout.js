@@ -1,11 +1,11 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PageFooter from '../components/PageFooter';
-import PageHeader from '../components/PageHeader';
+import CssBaseline from '@mui/material/CssBaseline'
+import Box from '@mui/material/Box'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import PageFooter from '../components/PageFooter'
+import PageHeader from '../components/PageHeader'
 
 
-const theme = createTheme();
+const theme = createTheme()
 
 
 // Build up a page from the header, main content, and footer.
@@ -28,5 +28,5 @@ export default function PageLayout({ title, children, controls }) {
       <PageFooter />
 
     </ThemeProvider>
-  );
+  )
 }

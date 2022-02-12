@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
 
 
 // Copyright message based on current year.
@@ -15,7 +15,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-  );
+  )
 }
 
 
@@ -26,5 +26,5 @@ export default function PageFooter() {
     <Box sx={{ bgcolor: 'background.paper', p: 2 }} component="footer">
       <Copyright />
     </Box>
-  );
+  )
 }

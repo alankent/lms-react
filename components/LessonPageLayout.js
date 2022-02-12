@@ -29,8 +29,8 @@ export default function LessonPageLayout({ id, children }) {
   const prevLesson = Curriculum.findPrevLessonById(id)
   const course = Curriculum.findCourseByLessonId(id)
   const topic = Curriculum.findTopicByLessonId(id)
-  const { user } = useAuth();
-  const { loading, setLessonCompleted } = useDatabase();
+  const { user } = useAuth()
+  const { loading, setLessonCompleted } = useDatabase()
 
   // Controls for top left corner (prev/close/next)
   const iconControls = (
@@ -106,7 +106,7 @@ export default function LessonPageLayout({ id, children }) {
               Router.push(Curriculum.pathToLesson(course, nextLesson))
             }}
           >
-            {user == null ? "Log in to save progress" : "DONE, NEXT LESSON!"}
+            {user === null ? "Log in to save progress" : "DONE, NEXT LESSON!"}
           </Button>
         ) : (
           <Button
@@ -119,7 +119,7 @@ export default function LessonPageLayout({ id, children }) {
               Router.push(Curriculum.pathToCourse(course))
             }}
           >
-            {user == null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
+            {user === null ? "Log in to save progress" : "DONE, COURSE PAGE!"}
           </Button>
         )}
 
@@ -138,5 +138,5 @@ export default function LessonPageLayout({ id, children }) {
       </Container>
 
     </PageLayout>
-  );
+  )
 }

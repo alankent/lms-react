@@ -7,14 +7,13 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Grid from '@mui/material/Grid'
 import Switch from '@mui/material/Switch'
-import FormControl from '@mui/material/FormControl'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import HtmlMetaTags from './HtmlMetaTags'
 import TwitterMetaTags from './TwitterMetaTags'
 import OpenGraphMetaTags from './OpenGraphMetaTags'
-import Link from 'next/link';
+import Link from 'next/link'
 import PageLayout from '../components/PageLayout'
 import Curriculum from '../helpers/Curriculum'
 import Assignment from '@mui/icons-material/Assignment'
@@ -28,8 +27,8 @@ import { useDatabase } from '../components/DatabaseProvider'
 //
 export default function CoursesHomePage() {
 
-  const { user } = useAuth();
-  const { loading, courseCompleted, setCourseCompleted } = useDatabase();
+  const { user } = useAuth()
+  const { loading, courseCompleted, setCourseCompleted } = useDatabase()
 
   const title = "Web Comic and Animation Free Course Material"
   const description = "Welcome to my site for comic and animation creators who want to learn how to create web comics and animation with limited drawing or technical skills, using mainly freely available software."
@@ -114,5 +113,5 @@ export default function CoursesHomePage() {
       </Container>
     </PageLayout>
 
-  );
+  )
 }

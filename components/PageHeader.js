@@ -18,7 +18,7 @@ import { useAuth } from '../components/AuthUserProvider'
 //
 export default function PageHeader({ title, controls }) {
 
-  const { user, signIn, signOut } = useAuth();
+  const { user, signIn, signOut } = useAuth()
 
   const handleSignIn = () => {
     signIn()
@@ -64,5 +64,5 @@ export default function PageHeader({ title, controls }) {
         </Box>
       </Toolbar>
     </AppBar>
-  );
+  )
 }
