@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import firebaseInit from '../helpers/firebaseConfig'
 import { useAuth } from './AuthUserProvider'
-import { ref, once, update, onValue, offValue } from 'firebase/database'
+import { ref, get, update, onValue, off } from 'firebase/database'
 
 
 // Create a context for database connection details.
@@ -16,10 +16,9 @@ const databaseContext = createContext({
 })
 
 
-// Update the database contents for the specified user with a new set of state
-// for what lessons and courses the user has completed.
+// Update the database state what what courses/lessons have been completed.
 //
-function updateDatabase(db, user, completionStatus) {
+function updateDatabase(db, user, id, value) {
 
   if (!user) {
     console.warn("Tried to update database without logging on! (user = null)")
@@ -32,7 +31,7 @@ function updateDatabase(db, user, completionStatus) {
   }
 
   var updates = {}
-  updates["/completed/" + user.uid] = completionStatus
+  updates[`/completed/${user.uid}/${id}`] = value
   return update(r, updates)
     .then(() => {
       //console.log("UPDATE DONE FOR", user)
@@ -41,7 +40,6 @@ function updateDatabase(db, user, completionStatus) {
 
 
 // Get everything set up to talk to the database.
-// TODO: Could optimize to have one update message per lesson.
 //
 function useFirebaseDatabase() {
 
@@ -68,10 +66,7 @@ function useFirebaseDatabase() {
       return
     }
     setLoading(true)
-    completionStatus[course.id] = value
-    setCompletionStatus(completionStatus)
-    updateDatabase(db, user, completionStatus)
-        .then(() => { setLoading(false) })
+    updateDatabase(db, user, course.id, value)
   }
 
   // Return true if lesson has been completed.
@@ -90,34 +85,29 @@ function useFirebaseDatabase() {
       return
     }
     setLoading(true)
-    completionStatus[lesson.id] = value
-    setCompletionStatus(completionStatus)
-    updateDatabase(db, user, completionStatus)
-        .then(() => { setLoading(false) })
+    updateDatabase(db, user, lesson.id, value)
   }
-
-  // TODO: I have tried other listening techniques, but usually end up in infinite loops.
-  // This approach can get multiple database updates for a single page with no database changes (!!).
 
   // listen for Firebase database state change
   const onValueChange = (snapshot) => {
+    console.log("RECEIVED DATABASE UPDATE FOR " + user?.uid)
     var newStatus = snapshot.val()
-    console.log("RECEIVED DATABASE UPDATE FOR " + user.uid, newStatus)
-    console.log(snapshot)
     if (newStatus !== null) {
-      completionStatus = newStatus
-      if (loading) {
-        setLoading(false)
-      }
+      setCompletionStatus(newStatus)
+      setLoading(false)
     }
   }
 
-  // Once we are connected (and so have 'user' available), connect to the database
-  if (user) {
-    // Listen for updates, so if someone in other session changes something, we see it.
-    var completionListenerRef = ref(db, 'completed/' + user.uid)
-    onValue(completionListenerRef, onValueChange)
-  }
+  // Listen for updates to the database, deregistering listener when done
+  useEffect(() => {
+    if (user) {
+      const listenerRef = ref(db, `/completed/${user.uid}`)
+      const listener = onValue(listenerRef, onValueChange)
+
+      // Stop listening for updates when no longer required
+      return () => off(listenerRef, listener);
+    }
+  }, [user?.uid]);
 
   // Return state (loading, completionStatus) and methods for caller's convenience.
   return {
