@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react'
-import firebaseInit from '../helpers/firebaseConfig'
+import { useFirebase } from './FirebaseProvider'
 import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth'
 
 
@@ -26,7 +26,7 @@ const formatUser = (authState) => ({
 // Set everything up for using authentication with firebase.
 //
 function useFirebaseAuth() {
-  const { auth } = firebaseInit()
+  const { auth } = useFirebase()
 
   // Remember the user profile in React component state
   const [user, setUser] = useState(null)

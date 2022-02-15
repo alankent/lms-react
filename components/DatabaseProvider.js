@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react'
-import firebaseInit from '../helpers/firebaseConfig'
+import { useFirebase } from './FirebaseProvider'
 import { useAuth } from './AuthUserProvider'
 import { ref, get, update, onValue, off } from 'firebase/database'
 
@@ -43,7 +43,7 @@ function updateDatabase(db, user, id, value) {
 //
 function useFirebaseDatabase() {
 
-  const { db } = firebaseInit()
+  const { db } = useFirebase()
   const { user } = useAuth()
 
   // Keep track of the current completion state of lessons.

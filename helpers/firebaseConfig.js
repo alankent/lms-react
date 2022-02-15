@@ -1,9 +1,3 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
-import { getDatabase } from 'firebase/database'
-import { getAnalytics } from "firebase/analytics";
-
-
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -37,23 +31,4 @@ const firebaseConfig = {
 */
 
 
-// TODO: Convert to session state, but make sure we only initialize
-// the connection once and reuse it every call.
-
-var app
-var auth
-var db
-
-export default function firebaseInit() {
-
-  if (!app) {
-
-    app = initializeApp(firebaseConfig, "Extra Ordinary LMS")
-    auth = getAuth(app)
-    db = getDatabase(app)
-    //analytics = getAnalytics(app);
-
-  }
-
-  return { app, auth, db }
-}
+export default firebaseConfig
