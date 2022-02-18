@@ -19,7 +19,7 @@
     "ajv": ">=6.12.3",
     "file-loader": "^6.2.0",
     "firebase": "^9.6.6",
-    "firebase-tools": "^10.1.5",
+    "firebase-tools": "^10.2.1",
     "firebaseui": "^6.0.0",
     "glob-parent": ">=5.1.2",
     "img-loader": "^4.0.0",
