@@ -1,5 +1,7 @@
 import Container from '@mui/material/Container'
 import StructuredData from './StructuredData'
+import MaxVideoPreview from './MaxVideoPreview'
+import MaxImagePreview from './MaxImagePreview'
 import moment from 'moment'
 
 
@@ -28,6 +30,8 @@ export default function YouTube({ title, description, thumbnailUrl, published, d
     <>
 
       <StructuredData data={structuredData}/>
+      <MaxVideoPreview seconds={30}/>
+      <MaxImagePreview size={MaxImagePreview.LARGE}/>
 
       <Container maxWidth="lg">
         <div style={{overflow: "hidden", paddingTop: "56.25%", position: "relative"}}>
