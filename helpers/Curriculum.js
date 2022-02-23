@@ -1,4 +1,5 @@
 import ch001 from '../courses/ch001'
+import wa001 from '../courses/wa001'
 
 
 // All of the categories/courses/topics/lessons available.
@@ -14,6 +15,14 @@ const Curriculum = {
       description: "Learn how to use Adobe Character Animator (a part of the Adobe Creative Cloud) to perform 2D animation of Photoshop or Illustrator artwork",
       courses: [
         ch001,
+      ]
+    },
+    {
+      category_label: "wa",
+      title: "Web Apps",
+      description: "Create your own web applications using modern web development tools such as Next.js, React, and Google Firebase",
+      courses: [
+        wa001,
       ]
     }
   ]

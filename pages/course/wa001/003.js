@@ -1,7 +1,7 @@
 import LessonPageLayout from '../../../components/LessonPageLayout'
 
-export default function Lesson_ch001_000() {
+export default function Lesson_wa001_003() {
   return (
-    <LessonPageLayout id="ch001_000"/>
+    <LessonPageLayout id="wa001_003"/>
   )
 }

@@ -56,7 +56,7 @@ export default function CoursesHomePage() {
       {/* List of categories and courses per category */}
       <Container sx={{ py: 8 }} maxWidth="lg">
         {Curriculum.categories.map((category) => (
-          <Box key={category.category_label}>
+          <Box key={category.category_label} pb={6}>
 
             <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
               {category.title}
