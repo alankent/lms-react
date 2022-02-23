@@ -18,7 +18,7 @@ import PageLayout from '../components/PageLayout'
 import Curriculum from '../helpers/Curriculum'
 import Assignment from '@mui/icons-material/Assignment'
 import { useAuth } from '../components/AuthUserProvider'
-import { useDatabase } from '../components/DatabaseProvider'
+import { useCompletion } from '../components/CompletionProvider'
 
 
 // Display the home page, which consists of a list of all courses
@@ -28,7 +28,7 @@ import { useDatabase } from '../components/DatabaseProvider'
 export default function CoursesHomePage() {
 
   const { user } = useAuth()
-  const { loading, courseCompleted, setCourseCompleted } = useDatabase()
+  const { loading, courseCompleted, setCourseCompleted } = useCompletion()
 
   const title = "Web Comic and Animation Free Course Material"
   const description = "Welcome to my site for comic and animation creators who want to learn how to create web comics and animation with limited drawing or technical skills, using mainly freely available software."

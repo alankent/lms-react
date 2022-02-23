@@ -16,7 +16,7 @@ import TwitterMetaTags from './TwitterMetaTags'
 import OpenGraphMetaTags from './OpenGraphMetaTags'
 import Router from 'next/router'
 import { useAuth } from '../components/AuthUserProvider'
-import { useDatabase } from '../components/DatabaseProvider'
+import { useCompletion } from '../components/CompletionProvider'
 
 
 // Format a duration into a human readable string.
@@ -37,7 +37,7 @@ export default function CoursePageLayout({ id, children }) {
 
   const course = Curriculum.findCourseByCourseId(id)
   const { user } = useAuth()
-  const { loading, completionStatus, lessonCompleted, setLessonCompleted, setCourseCompleted } = useDatabase()
+  const { loading, completionStatus, lessonCompleted, setLessonCompleted, setCourseCompleted } = useCompletion()
 
   // Structured data to include on the page to help search engines understand what this page is.
   // This gets embedded in the <head> element of the page.

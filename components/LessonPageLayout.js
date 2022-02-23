@@ -17,7 +17,7 @@ import OpenGraphMetaTags from './OpenGraphMetaTags'
 import React from 'react'
 import Router from 'next/router'
 import { useAuth } from '../components/AuthUserProvider'
-import { useDatabase } from '../components/DatabaseProvider'
+import { useCompletion } from '../components/CompletionProvider'
 
 
 // A lesson page. Show lesson details with buttons to make "done" at the bottom.
@@ -30,7 +30,7 @@ export default function LessonPageLayout({ id, children }) {
   const course = Curriculum.findCourseByLessonId(id)
   const topic = Curriculum.findTopicByLessonId(id)
   const { user } = useAuth()
-  const { loading, setLessonCompleted } = useDatabase()
+  const { loading, setLessonCompleted } = useCompletion()
 
   // Controls for top left corner (prev/close/next)
   const iconControls = (
