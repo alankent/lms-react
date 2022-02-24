@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next-sitemap && next export && echo Ready for firebase deploy",
-    "generate:sitemap": "next-sitemap",
+    "build": "next build && node node_modules/next-sitemap/bin/next-sitemap && next export && echo Ready for firebase deploy",
+    "generate:sitemap": "node node_modules/next-sitemap/bin/next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
