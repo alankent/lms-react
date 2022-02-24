@@ -40,6 +40,7 @@ const ch001 = {
           published: moment("2018-10-20"),
           duration: moment.duration("0:8:56"),
           youTubeCode: "6Jq1FMCx8Xg",
+          staticFile: true,
         },
         {
           lesson_label: "2",

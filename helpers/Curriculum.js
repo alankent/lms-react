@@ -158,7 +158,7 @@ Curriculum.allDynamicRouteCourseIds = function allDynamicRouteCourseIds() {
   for (var category of Curriculum.categories) {
     for (var course of category.courses) {
       if (!course.staticFile) {
-        courseIds.push({ courseId: course.id })
+        courseIds.push({ courseId: course.path })
       }
     }
   }
@@ -175,7 +175,7 @@ Curriculum.allDynamicRouteCourseAndLessonIds = function allDynamicRouteCourseAnd
       for (var topic of course.topics) {
         for (var lesson of topic.lessons) {
           if (!lesson.staticFile) {
-            courseAndLessonIds.push({ courseId: course.id, lessonId: lesson.id })
+            courseAndLessonIds.push({ courseId: course.path, lessonId: lesson.path })
           }
         }
       }

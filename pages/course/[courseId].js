@@ -26,7 +26,6 @@ export async function getStaticPaths() {
       courseId
     }
   }))
-  console.log(paths)
   return {
     paths,
     fallback: false
