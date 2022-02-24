@@ -7,6 +7,7 @@ const ch001 = {
   id: "ch001",
   title: "Project Wookie",
   description: "This is a series of tutorials/walkthroughs of Adobe Character Animator using a photo of a stuffed Wookie toy and then using Adobe Photoshop to change that photo into an animated cartoon 'puppet'.",
+  staticFile: true,
   topics: [
     {
       topic_label: "0",

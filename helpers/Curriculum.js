@@ -151,6 +151,40 @@ Curriculum.findPrevLessonById = function findPrevLessonById(lessonId) {
 }
 
 
+// Return a list of all course ids.
+//
+Curriculum.allDynamicRouteCourseIds = function allDynamicRouteCourseIds() {
+  var courseIds = []
+  for (var category of Curriculum.categories) {
+    for (var course of category.courses) {
+      if (!course.staticFile) {
+        courseIds.push({ courseId: course.id })
+      }
+    }
+  }
+  return courseIds;
+}
+
+
+// Return a list of all course ids.
+//
+Curriculum.allDynamicRouteCourseAndLessonIds = function allDynamicRouteCourseAndLessonIds() {
+  var courseAndLessonIds = []
+  for (var category of Curriculum.categories) {
+    for (var course of category.courses) {
+      for (var topic of course.topics) {
+        for (var lesson of topic.lessons) {
+          if (!lesson.staticFile) {
+            courseAndLessonIds.push({ courseId: course.id, lessonId: lesson.id })
+          }
+        }
+      }
+    }
+  }
+  return courseAndLessonIds;
+}
+
+
 // Return the URL to the page of a course.
 //
 Curriculum.pathToCourse = function pathToCourse(course) {
