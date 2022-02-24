@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, createContext, useContext } from 'react'
 import { useFirebase } from './FirebaseProvider'
 import { useAuth } from './AuthUserProvider'
 import { ref, get, update, onValue, off } from 'firebase/database'
@@ -35,37 +35,35 @@ export function DatabaseProvider({ children }) {
   // the value is the setter function to call when the value changes.
   const listeners = (watches) => {
 
-    useEffect(() => {
+    if (!user) {
+      return () => null
+    }
 
-      if (user) {
+    // Watch each provided path, calling the setting on change.
+    var unsubscribe = []
+    for (var path in watches) {
 
-        // Watch each provided path, calling the setting on change.
-        var unsubscribe = []
-        for (var path in watches) {
+      // Get the setter function for the path.
+      const setter = watches[path]
 
-          // Get the setter function for the path.
-          const setter = watches[path]
+      // Get the ref handle for the path
+      const listenerPath = `/user/${user.uid}/${path}`
+      const listenerRef = ref(db, listenerPath)
 
-          // Get the ref handle for the path
-          const listenerPath = `/user/${user.uid}/${path}`
-          const listenerRef = ref(db, listenerPath)
+      // Register listener for value changes
+      const listener = onValue(listenerRef, (snapshot) => {
+        //console.log("RECEIVED DATABASE UPDATE FOR " + user?.uid)
+        var newValue = snapshot.val()
+        setter(newValue)
+        setLoading(false)
+      })
 
-          // Register listener for value changes
-          const listener = onValue(listenerRef, (snapshot) => {
-            //console.log("RECEIVED DATABASE UPDATE FOR " + user?.uid)
-            var newValue = snapshot.val()
-            setter(newValue)
-            setLoading(false)
-          })
+      // Remember all on-value-changed listeners so we can remove them later
+      unsubscribe.push(() => off(listenerRef, listener))
+    }
 
-          // Remember all on-value-changed listeners so we can remove them later
-          unsubscribe.push(() => off(listenerRef, listener))
-        }
-
-        // Stop listening for updates when no longer required
-        return () => unsubscribe.map((unsub) => unsub())
-      }
-    }, [user?.uid]);
+    // Stop listening for updates when no longer required
+    return () => unsubscribe.map((unsub) => unsub())
   }
   
   // Function to update database with a set of new values.

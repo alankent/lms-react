@@ -1,4 +1,5 @@
-import { useState, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
+import { useAuth } from './AuthUserProvider'
 import { useDatabase } from './DatabaseProvider'
 
 
@@ -20,12 +21,13 @@ const completionContext = createContext({
 export function CompletionProvider({ children }) {
 
   const { loading, listeners, updatePaths } = useDatabase()
+  const { user } = useAuth()
 
   // Keep track of the current completion state of lessons.
   const [completionStatus, setCompletionStatus] = useState({})
 
   // Listen for database updates and save them away.
-  listeners({ "completed": setCompletionStatus })
+  useEffect(() => listeners({ "completed": setCompletionStatus }), [user?.uid])
 
   // Return true if the user has completed this course.
   const courseCompleted = (course) => {
