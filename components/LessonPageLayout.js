@@ -32,6 +32,14 @@ export default function LessonPageLayout({ id, children }) {
   const { user } = useAuth()
   const { loading, setLessonCompleted } = useCompletion()
 
+  if (lesson === null) {
+    return (
+      <Container width="md">
+        {"Lesson not found "}
+      </Container>
+    )
+  }
+
   // Controls for top left corner (prev/close/next)
   const iconControls = (
     <>

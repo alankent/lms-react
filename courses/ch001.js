@@ -7,6 +7,7 @@ const ch001 = {
   id: "ch001",
   title: "Project Wookie",
   description: "This is a series of tutorials/walkthroughs of Adobe Character Animator using a photo of a stuffed Wookie toy and then using Adobe Photoshop to change that photo into an animated cartoon 'puppet'.",
+  staticFile: true,
   topics: [
     {
       topic_label: "0",
@@ -39,6 +40,7 @@ const ch001 = {
           published: moment("2018-10-20"),
           duration: moment.duration("0:8:56"),
           youTubeCode: "6Jq1FMCx8Xg",
+          staticFile: true,
         },
         {
           lesson_label: "2",
