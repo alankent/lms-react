@@ -10,10 +10,16 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://extra-ordinary.tv/">
-        Extra Ordinary
+        <a>Extra Ordinary</a>
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
+      {'. '}
+      <Link color="inherit" href="/terms">
+        <a>Terms of Service</a>
+      </Link>{'. '}
+      <Link color="inherit" href="/privacy">
+        <a>Privacy Policy</a>
+      </Link>{'.'}
     </Typography>
   )
 }
